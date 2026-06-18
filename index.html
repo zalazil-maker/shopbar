@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luxury Barber — Amiens</title>
+  <meta name="description" content="Luxury Barber à Amiens — Le barbier premium au 11 Rue Dumeril. Coupes homme, enfant, barbe. Réservation en ligne sur Planity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c9a227;
+      --gold-light: #e8c84a;
+      --dark: #0d0d0d;
+      --dark-2: #161616;
+      --dark-3: #1f1f1f;
+      --dark-4: #2a2a2a;
+      --text: #f0ece4;
+      --text-muted: #9e9890;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 5%;
+      background: rgba(13,13,13,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,162,39,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: #000 !important;
+      padding: 9px 20px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--gold-light) !important; color: #000 !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(201,162,39,0.1) 0%, transparent 70%),
+        linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
+    }
+
+    .hero-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,162,39,0.12);
+      border: 1px solid rgba(201,162,39,0.3);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge::before { content: '✦'; font-size: 0.7rem; }
+
+    .hero h1 {
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero-sub {
+      position: relative;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 48px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-actions {
+      position: relative;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 15px 32px;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(201,162,39,0.4);
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 15px 32px;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--gold); background: rgba(201,162,39,0.08); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(5px); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 90px 5%; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 520px;
+    }
+
+    /* ── RATING ── */
+    .rating-section {
+      background: var(--dark-2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 56px 5%;
+    }
+
+    .rating-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .rating-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rating-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stars {
+      display: flex;
+      gap: 4px;
+      font-size: 1.4rem;
+    }
+
+    .star { color: var(--gold); }
+    .star-half { color: var(--gold); opacity: 0.5; }
+
+    .rating-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .rating-divider {
+      width: 1px;
+      height: 80px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .rating-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .rating-stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .rating-stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── SERVICES / TARIFS ── */
+    .services-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 90px 5%;
+    }
+
+    .services-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(201,162,39,0.4);
+      transform: translateY(-3px);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .service-card:hover::before { opacity: 1; }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .service-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .price-currency {
+      font-size: 1.2rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── REVIEWS ── */
+    .reviews-section {
+      background: var(--dark-2);
+      padding: 90px 5%;
+    }
+
+    .reviews-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .reviews-header {
+      margin-bottom: 48px;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .reviews-grid { grid-template-columns: 1fr; }
+    }
+
+    .review-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: border-color 0.2s;
+    }
+
+    .review-card:hover { border-color: rgba(201,162,39,0.25); }
+
+    .review-stars { display: flex; gap: 3px; font-size: 1rem; }
+
+    .review-text {
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .review-text::before { content: '\201C'; color: var(--gold); font-size: 1.3em; }
+    .review-text::after  { content: '\201D'; color: var(--gold); font-size: 1.3em; }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #7a5f10 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #000;
+      flex-shrink: 0;
+    }
+
+    .review-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .review-source {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ── HOURS ── */
+    .info-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 90px 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .hours-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .hours-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.92rem;
+    }
+
+    .hours-day { color: var(--text-muted); }
+    .hours-time { font-weight: 500; }
+
+    .address-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .address-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .address-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(201,162,39,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .address-content { display: flex; flex-direction: column; gap: 2px; }
+
+    .address-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .address-value {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .address-value a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .address-value a:hover { text-decoration: underline; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: var(--dark-2);
+      padding: 80px 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .cta-inner { max-width: 640px; margin: 0 auto; }
+    .cta-inner .section-title { margin-bottom: 16px; }
+    .cta-inner p { color: var(--text-muted); margin-bottom: 36px; font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 36px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .rating-divider { display: none; }
+      .info-section { grid-template-columns: 1fr; gap: 48px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-outline { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Luxury Barber</a>
+    <ul class="nav-links">
+      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#infos">Infos</a></li>
+      <li><a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="nav-cta">Réserver</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Barbier à Amiens</div>
+    <h1>Luxury<br><span>Barber</span></h1>
+    <p class="hero-sub">Expertise. Précision. Style.</p>
+    <div class="hero-actions">
+      <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="btn-primary">
+        📅 Prendre rendez-vous
+      </a>
+      <a href="#tarifs" class="btn-outline">Voir les tarifs</a>
+    </div>
+    <div class="hero-scroll">Découvrir</div>
+  </section>
+
+  <!-- RATING -->
+  <div class="rating-section">
+    <div class="rating-inner">
+      <div class="rating-score">
+        <div class="rating-number">4.3</div>
+        <div class="stars">
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star">★</span>
+          <span class="star-half">★</span>
+        </div>
+        <div class="rating-label">Note Google</div>
+      </div>
+      <div class="rating-divider"></div>
+      <div class="rating-stat">
+        <div class="rating-stat-number">69</div>
+        <div class="rating-stat-label">Avis Google</div>
+      </div>
+      <div class="rating-divider"></div>
+      <div class="rating-stat">
+        <div class="rating-stat-number">2</div>
+        <div class="rating-stat-label">Barbiers pro</div>
+      </div>
+      <div class="rating-divider"></div>
+      <div class="rating-stat">
+        <div class="rating-stat-number">7j/7</div>
+        <div class="rating-stat-label">Ouvert toute la semaine</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARIFS -->
+  <section id="tarifs">
+    <div class="services-section" style="padding: 0;">
+      <div class="services-header">
+        <span class="section-label">Nos prestations</span>
+        <h2 class="section-title">Tarifs simples,<br>résultats impeccables</h2>
+        <p class="section-subtitle">Des prix transparents pour chaque prestation, sans mauvaise surprise.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <span class="service-icon">✂️</span>
+          <div class="service-name">Coupe Adulte</div>
+          <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
+          <div class="service-price">
+            <span class="price-amount">15</span>
+            <span class="price-currency">€</span>
+          </div>
+        </div>
+
+        <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
+          <span class="service-icon">💈</span>
+          <div class="service-name">Coupe + Barbe</div>
+          <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
+          <div class="service-price">
+            <span class="price-amount">22</span>
+            <span class="price-currency">€</span>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <span class="service-icon">👦</span>
+          <div class="service-name">Coupe Enfant</div>
+          <div class="service-desc">Coupe pour les petits dans une ambiance détendue. Pour que vos enfants repartent contents et bien coiffés.</div>
+          <div class="service-price">
+            <span class="price-amount">12</span>
+            <span class="price-currency">€</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section id="avis" class="reviews-section">
+    <div class="reviews-inner">
+      <div class="reviews-header">
+        <span class="section-label">Ce que disent nos clients</span>
+        <h2 class="section-title">Ils nous font confiance</h2>
+      </div>
+      <div class="reviews-grid">
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">Le coiffeur est agréable, à l'écoute, et les prix sont vraiment corrects. Il prend son temps, mais c'est justement ce qui fait la qualité du résultat. Je recommande les yeux fermés !</p>
+          <div class="review-author">
+            <div class="review-avatar">T</div>
+            <div>
+              <div class="review-name">Taha Khomsi</div>
+              <div class="review-source">Avis Google · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">Trop gentil avec les meilleurs barbiers d'Amiens.</p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <div class="review-name">Mackenzie Austin</div>
+              <div class="review-source">Google Local Guide · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">Super professional staff, my brother is very happy with the end result.</p>
+          <div class="review-author">
+            <div class="review-avatar">Z</div>
+            <div>
+              <div class="review-name">Zorica Kovac</div>
+              <div class="review-source">Avis Google · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">I went with my nephew for his haircut. I loved the service, fun and professional.</p>
+          <div class="review-author">
+            <div class="review-avatar">E</div>
+            <div>
+              <div class="review-name">Eleonora Iacuzzo</div>
+              <div class="review-source">Avis Google · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">Bonne coupe et service agréable, je recommande.</p>
+          <div class="review-author">
+            <div class="review-avatar">P</div>
+            <div>
+              <div class="review-name">Paco</div>
+              <div class="review-source">Avis Google · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="review-text">I recommend this place 👍</p>
+          <div class="review-author">
+            <div class="review-avatar">A</div>
+            <div>
+              <div class="review-name">Andreea</div>
+              <div class="review-source">Avis Google · Mai 2025</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INFOS -->
+  <div id="infos">
+    <div class="info-section">
+
+      <div>
+        <span class="section-label">Horaires</span>
+        <h2 class="section-title" style="margin-bottom: 32px;">On vous accueille<br>7j/7</h2>
+        <ul class="hours-list">
+          <li class="hours-item"><span class="hours-day">Lundi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Mardi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Mercredi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Jeudi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Vendredi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Samedi</span><span class="hours-time">9h30 – 20h00</span></li>
+          <li class="hours-item"><span class="hours-day">Dimanche</span><span class="hours-time">10h00 – 20h00</span></li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="section-label">Nous trouver</span>
+        <h2 class="section-title" style="margin-bottom: 32px;">Notre adresse</h2>
+        <div class="address-block">
+
+          <div class="address-item">
+            <div class="address-icon">📍</div>
+            <div class="address-content">
+              <span class="address-label">Adresse</span>
+              <span class="address-value">
+                <a href="https://maps.google.com/?q=11+Rue+Dumeril+80000+Amiens" target="_blank" rel="noopener">
+                  11 Rue Dumeril<br>80000 Amiens
+                </a>
+              </span>
+            </div>
+          </div>
+
+          <div class="address-item">
+            <div class="address-icon">📅</div>
+            <div class="address-content">
+              <span class="address-label">Réservation en ligne</span>
+              <span class="address-value">
+                <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">
+                  Planity — Réserver maintenant →
+                </a>
+              </span>
+            </div>
+          </div>
+
+          <div class="address-item">
+            <div class="address-icon">📸</div>
+            <div class="address-content">
+              <span class="address-label">Instagram</span>
+              <span class="address-value">
+                <a href="https://www.instagram.com/luxurybarber80/" target="_blank" rel="noopener">
+                  @luxurybarber80
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <span class="section-label">Prêt ?</span>
+      <h2 class="section-title">Réservez votre séance</h2>
+      <p>Prenez rendez-vous en quelques secondes sur Planity. Choisissez votre créneau, votre barbier et venez comme vous êtes — on s'occupe du reste.</p>
+      <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="btn-primary" style="font-size:1rem; padding: 17px 40px;">
+        📅 Réserver sur Planity
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Luxury Barber</div>
+    <ul class="footer-links">
+      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Planity</a></li>
+      <li><a href="https://www.instagram.com/luxurybarber80/" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Luxury Barber · Amiens</span>
+  </footer>
+
+</body>
+</html>
