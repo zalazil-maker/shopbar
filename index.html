@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Luxury Barber — Amiens</title>
-  <meta name="description" content="Luxury Barber à Amiens — Le barbier premium au 11 Rue Dumeril. Coupes homme, enfant, barbe. Réservation en ligne sur Planity." />
+  <meta name="description" content="Luxury Barber à Amiens — Le barbier premium au 11 Rue Dumeril. Coupe 18 €, barbe 9,99 €, coupe + barbe 23,99 €. Réservez en ligne en 30 secondes, moins cher qu'en passant par Planity." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -332,7 +332,7 @@
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
       gap: 20px;
     }
 
@@ -613,6 +613,362 @@
       font-size: 0.78rem;
     }
 
+    .tarifs-note {
+      max-width: 560px;
+      margin: 18px auto 0;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .tarifs-note strong { color: var(--gold); font-weight: 600; }
+
+    .service-price { flex-wrap: wrap; }
+
+    .price-was {
+      flex-basis: 100%;
+      margin-top: 3px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .price-save {
+      display: inline-block;
+      margin-top: 10px;
+      background: rgba(201,162,39,0.12);
+      border: 1px solid rgba(201,162,39,0.3);
+      color: var(--gold);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .service-book {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+
+    .service-card:hover .service-book { opacity: 1; }
+
+    /* ── BOOKING ── */
+    .booking-section {
+      background: var(--dark-2);
+      padding: 90px 5%;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .booking-inner { max-width: 780px; margin: 0 auto; }
+
+    .booking-header { text-align: center; margin-bottom: 40px; }
+
+    .booking-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .step.done .step-num { background: rgba(201,162,39,0.18); border-color: var(--gold); color: var(--gold); }
+    .step.active .step-num { background: var(--gold); border-color: var(--gold); color: #000; }
+    .step.active { color: var(--text); }
+    .step-sep { flex: 1; height: 1px; background: rgba(255,255,255,0.1); min-width: 12px; }
+
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-hint { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 22px; }
+
+    .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .opt {
+      background: var(--dark-4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 18px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .opt:hover { border-color: rgba(201,162,39,0.5); transform: translateY(-2px); }
+    .opt.selected { border-color: var(--gold); background: rgba(201,162,39,0.1); }
+
+    .opt-name { font-weight: 600; }
+    .opt-meta { font-size: 0.82rem; color: var(--text-muted); }
+    .opt-price { color: var(--gold); font-weight: 600; font-size: 1.05rem; }
+
+    .barber-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #7a5f10 100%);
+      color: #000;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .date-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 24px;
+      scrollbar-width: thin;
+    }
+
+    .date-chip {
+      flex: 0 0 auto;
+      min-width: 62px;
+      background: var(--dark-4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 6px;
+      cursor: pointer;
+      text-align: center;
+      color: var(--text);
+      font-family: inherit;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .date-chip:hover { border-color: rgba(201,162,39,0.5); }
+    .date-chip.selected { border-color: var(--gold); background: rgba(201,162,39,0.12); }
+    .date-chip-day { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .date-chip.selected .date-chip-day { color: var(--gold); }
+    .date-chip-num { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; line-height: 1.3; }
+    .date-chip-mon { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; }
+
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+      gap: 8px;
+    }
+
+    .slot {
+      background: var(--dark-4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 11px 4px;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .slot:hover { border-color: var(--gold); background: rgba(201,162,39,0.1); }
+    .slot.selected { border-color: var(--gold); background: var(--gold); color: #000; font-weight: 600; }
+
+    .booking-field { margin-bottom: 16px; }
+
+    .booking-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+    }
+
+    .booking-field input,
+    .booking-field textarea {
+      width: 100%;
+      background: var(--dark-4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 13px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    .booking-field input:focus,
+    .booking-field textarea:focus { outline: none; border-color: var(--gold); }
+    .booking-field textarea { resize: vertical; min-height: 68px; }
+
+    .summary {
+      background: var(--dark-4);
+      border: 1px solid rgba(201,162,39,0.25);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .summary-row { display: flex; justify-content: space-between; font-size: 0.9rem; gap: 16px; }
+    .summary-row span:first-child { color: var(--text-muted); }
+    .summary-row span:last-child { font-weight: 500; text-align: right; }
+    .summary-total { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 2px; }
+    .summary-total span:last-child { color: var(--gold); font-weight: 700; font-size: 1.1rem; }
+
+    .booking-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 24px; }
+
+    .btn-back {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text-muted);
+      border-radius: 8px;
+      padding: 13px 22px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-back:hover { border-color: var(--text-muted); color: var(--text); }
+
+    .btn-submit {
+      flex: 1;
+      min-width: 180px;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 15px 28px;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover:not(:disabled) { background: var(--gold-light); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .booking-msg {
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      display: none;
+    }
+
+    .booking-msg.error { display: block; background: rgba(200,60,60,0.12); border: 1px solid rgba(200,60,60,0.4); color: #f0a0a0; }
+    .booking-msg.info  { display: block; background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: var(--text-muted); }
+
+    .booking-empty { color: var(--text-muted); font-size: 0.9rem; padding: 20px 0; }
+
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(0,0,0,0.25);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: -2px;
+      margin-right: 7px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .confirm-box { text-align: center; padding: 14px 0; }
+
+    .confirm-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(201,162,39,0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+    }
+
+    .confirm-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; margin-bottom: 10px; }
+    .confirm-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 26px; }
+    .confirm-box .summary { text-align: left; }
+
+    .cancel-link {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .cancel-link:hover { color: var(--gold); }
+
+    .planity-fallback {
+      text-align: center;
+      margin-top: 26px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .planity-fallback a { color: var(--gold); text-decoration: none; }
+    .planity-fallback a:hover { text-decoration: underline; }
+
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -624,6 +980,11 @@
     @media (max-width: 480px) {
       .hero-actions { flex-direction: column; width: 100%; }
       .btn-primary, .btn-outline { justify-content: center; }
+      .booking-card { padding: 22px 16px; }
+      .step-label { display: none; }
+      .slot-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+      .booking-actions { flex-direction: column-reverse; }
+      .btn-back, .btn-submit { width: 100%; }
     }
   </style>
 </head>
@@ -636,7 +997,7 @@
       <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="#infos">Infos</a></li>
-      <li><a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="nav-cta">Réserver</a></li>
+      <li><a href="#reserver" class="nav-cta">Réserver</a></li>
     </ul>
   </nav>
 
@@ -646,7 +1007,7 @@
     <h1>Luxury<br><span>Barber</span></h1>
     <p class="hero-sub">Expertise. Précision. Style.</p>
     <div class="hero-actions">
-      <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="btn-primary">
+      <a href="#reserver" class="btn-primary">
         📅 Prendre rendez-vous
       </a>
       <a href="#tarifs" class="btn-outline">Voir les tarifs</a>
@@ -692,38 +1053,59 @@
       <div class="services-header">
         <span class="section-label">Nos prestations</span>
         <h2 class="section-title">Tarifs simples,<br>résultats impeccables</h2>
-        <p class="section-subtitle">Des prix transparents pour chaque prestation, sans mauvaise surprise.</p>
+        <p class="section-subtitle" style="margin: 0 auto;">Des prix transparents pour chaque prestation, sans mauvaise surprise.</p>
+        <p class="tarifs-note">Ces tarifs sont réservés aux rendez-vous pris <strong>directement sur ce site</strong>. Sur Planity ou sans rendez-vous, le tarif normal s'applique.</p>
       </div>
       <div class="services-grid">
 
         <div class="service-card">
           <span class="service-icon">✂️</span>
-          <div class="service-name">Coupe Adulte</div>
+          <div class="service-name">Cheveux</div>
           <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
           <div class="service-price">
-            <span class="price-amount">15</span>
+            <span class="price-amount">18</span>
             <span class="price-currency">€</span>
+            <span class="price-was">20 € sur Planity</span>
           </div>
+          <div class="price-save">Économisez 2 € en réservant ici</div>
+          <a href="#reserver" class="service-book" data-book-service="cheveux">Réserver →</a>
+        </div>
+
+        <div class="service-card">
+          <span class="service-icon">🧔</span>
+          <div class="service-name">Barbe</div>
+          <div class="service-desc">Taille et contours de barbe à la tondeuse et au rasoir, finition serviette chaude. Net, précis, rapide.</div>
+          <div class="service-price">
+            <span class="price-amount">9,99</span>
+            <span class="price-currency">€</span>
+            <span class="price-was">12 € sur Planity</span>
+          </div>
+          <div class="price-save">Économisez 2,01 € en réservant ici</div>
+          <a href="#reserver" class="service-book" data-book-service="barbe">Réserver →</a>
         </div>
 
         <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
           <span class="service-icon">💈</span>
-          <div class="service-name">Coupe + Barbe</div>
+          <div class="service-name">Cheveux + Barbe</div>
           <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
           <div class="service-price">
-            <span class="price-amount">22</span>
+            <span class="price-amount">23,99</span>
             <span class="price-currency">€</span>
+            <span class="price-was">26 € sur Planity</span>
           </div>
+          <div class="price-save">Économisez 2,01 € en réservant ici</div>
+          <a href="#reserver" class="service-book" data-book-service="both">Réserver →</a>
         </div>
 
         <div class="service-card">
           <span class="service-icon">👦</span>
-          <div class="service-name">Coupe Enfant</div>
+          <div class="service-name">Enfant</div>
           <div class="service-desc">Coupe pour les petits dans une ambiance détendue. Pour que vos enfants repartent contents et bien coiffés.</div>
           <div class="service-price">
             <span class="price-amount">12</span>
             <span class="price-currency">€</span>
           </div>
+          <a href="#reserver" class="service-book" data-book-service="enfant">Réserver →</a>
         </div>
 
       </div>
@@ -867,9 +1249,7 @@
             <div class="address-content">
               <span class="address-label">Réservation en ligne</span>
               <span class="address-value">
-                <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">
-                  Planity — Réserver maintenant →
-                </a>
+                <a href="#reserver">Réserver maintenant →</a>
               </span>
             </div>
           </div>
@@ -892,17 +1272,450 @@
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta-section">
-    <div class="cta-inner">
-      <span class="section-label">Prêt ?</span>
-      <h2 class="section-title">Réservez votre séance</h2>
-      <p>Prenez rendez-vous en quelques secondes sur Planity. Choisissez votre créneau, votre barbier et venez comme vous êtes — on s'occupe du reste.</p>
-      <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" class="btn-primary" style="font-size:1rem; padding: 17px 40px;">
-        📅 Réserver sur Planity
-      </a>
+  <!-- RÉSERVATION -->
+  <section id="reserver" class="booking-section">
+    <div class="booking-inner">
+      <div class="booking-header">
+        <span class="section-label">Prêt ?</span>
+        <h2 class="section-title">Réservez votre séance</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">Choisissez votre prestation, votre barbier et votre créneau. Confirmation immédiate.</p>
+      </div>
+
+      <div class="booking-card" id="booking-card">
+        <noscript>
+          <p style="color: var(--text-muted);">
+            La réservation en ligne nécessite JavaScript. Vous pouvez aussi réserver sur
+            <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" style="color: var(--gold);">Planity</a>.
+          </p>
+        </noscript>
+      </div>
+
+      <p class="planity-fallback">
+        Vous préférez Planity ? <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Réserver sur Planity →</a>
+      </p>
     </div>
-  </div>
+  </section>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var WORKER = "https://barbershop.ezalazil.workers.dev";
+
+    // Mirrors the Worker's own config; used only if /api/config can't be
+    // reached, so the form still renders something sensible.
+    var FALLBACK = {
+      barbers: ["Momo", "Amine"],
+      services: {
+        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30 },
+        barbe: { label: "Barbe", price: 9.99, planity: 12.0, duration: 30 },
+        both: { label: "Cheveux + Barbe", price: 23.99, planity: 26.0, duration: 30 },
+        enfant: { label: "Enfant", price: 12.0, duration: 30 }
+      },
+      slotMinutes: 30,
+      maxDaysAhead: 60,
+      today: null
+    };
+
+    var ICONS = { cheveux: "✂️", barbe: "🧔", both: "💈", enfant: "👦" };
+    var DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
+    var MONTHS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
+
+    var card = document.getElementById("booking-card");
+    if (!card) return;
+
+    var st = {
+      step: 1,
+      service: null,
+      barber: null,
+      date: null,
+      slot: null,
+      config: FALLBACK,
+      avail: null,
+      loadingSlots: false,
+      busy: false,
+      error: "",
+      result: null,
+      cancelled: false
+    };
+
+    function esc(s) {
+      return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function money(n) {
+      var v = Math.round(Number(n) * 100) / 100;
+      var s = v % 1 === 0 ? String(v) : v.toFixed(2).replace(".", ",");
+      return s + " €";
+    }
+
+    function hhmm(min) {
+      return String(Math.floor(min / 60)).padStart(2, "0") + "h" + String(min % 60).padStart(2, "0");
+    }
+
+    function todayISO() {
+      if (st.config.today) return st.config.today;
+      var d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function addDays(iso, n) {
+      var p = iso.split("-").map(Number);
+      var d = new Date(Date.UTC(p[0], p[1] - 1, p[2] + n));
+      return d.toISOString().slice(0, 10);
+    }
+
+    function dateParts(iso) {
+      var p = iso.split("-").map(Number);
+      var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+      return { dow: DAYS[d.getUTCDay()], num: p[2], mon: MONTHS[p[1] - 1] };
+    }
+
+    function longDate(iso) {
+      var p = dateParts(iso);
+      return p.dow + ". " + p.num + " " + p.mon;
+    }
+
+    function svc() {
+      return st.service ? st.config.services[st.service] : null;
+    }
+
+    // ── Rendering ────────────────────────────────────────────────────────
+    function stepper() {
+      var labels = ["Prestation", "Barbier", "Créneau", "Coordonnées"];
+      var out = '<div class="steps">';
+      for (var i = 0; i < labels.length; i++) {
+        var n = i + 1;
+        var cls = st.step === n ? "active" : st.step > n ? "done" : "";
+        out += '<div class="step ' + cls + '"><span class="step-num">' + (st.step > n ? "✓" : n) +
+          '</span><span class="step-label">' + labels[i] + "</span></div>";
+        if (i < labels.length - 1) out += '<div class="step-sep"></div>';
+      }
+      return out + "</div>";
+    }
+
+    function msg() {
+      return st.error ? '<div class="booking-msg error">' + esc(st.error) + "</div>" : "";
+    }
+
+    function summary(showSaving) {
+      var s = svc();
+      if (!s) return "";
+      var rows = '<div class="summary">';
+      rows += '<div class="summary-row"><span>Prestation</span><span>' + esc(s.label) + "</span></div>";
+      rows += '<div class="summary-row"><span>Barbier</span><span>' +
+        (st.barber === "any" ? "Peu importe" : esc(st.barber)) + "</span></div>";
+      if (st.date && st.slot != null) {
+        rows += '<div class="summary-row"><span>Quand</span><span>' + longDate(st.date) + " à " + hhmm(st.slot) + "</span></div>";
+      }
+      if (showSaving && s.planity) {
+        rows += '<div class="summary-row"><span>Tarif Planity</span><span style="text-decoration:line-through;color:var(--text-muted)">' +
+          money(s.planity) + "</span></div>";
+      }
+      rows += '<div class="summary-row summary-total"><span>À régler sur place</span><span>' + money(s.price) + "</span></div>";
+      if (showSaving && s.planity) {
+        rows += '<div class="summary-row"><span></span><span style="color:var(--gold);font-size:0.82rem">Vous économisez ' +
+          money(s.planity - s.price) + "</span></div>";
+      }
+      return rows + "</div>";
+    }
+
+    function renderServices() {
+      var out = '<div class="step-title">Quelle prestation ?</div>' +
+        '<div class="step-hint">Tarifs réservés aux rendez-vous pris sur ce site.</div><div class="opt-grid">';
+      Object.keys(st.config.services).forEach(function (key) {
+        var s = st.config.services[key];
+        out += '<button class="opt ' + (st.service === key ? "selected" : "") + '" data-service="' + esc(key) + '">' +
+          '<span style="font-size:1.5rem">' + (ICONS[key] || "✂️") + "</span>" +
+          '<span class="opt-name">' + esc(s.label) + "</span>" +
+          '<span class="opt-price">' + money(s.price) +
+          (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
+          "</span>" +
+          (s.planity ? '<span class="opt-meta">− ' + money(s.planity - s.price) + " vs Planity</span>" : "") +
+          "</button>";
+      });
+      return out + "</div>";
+    }
+
+    function renderBarbers() {
+      var out = '<div class="step-title">Avec quel barbier ?</div>' +
+        '<div class="step-hint">Choisissez votre barbier, ou laissez-nous vous placer au plus tôt.</div><div class="opt-grid">';
+      st.config.barbers.forEach(function (b) {
+        out += '<button class="opt ' + (st.barber === b ? "selected" : "") + '" data-barber="' + esc(b) + '">' +
+          '<span class="barber-avatar">' + esc(b.charAt(0)) + "</span>" +
+          '<span class="opt-name">' + esc(b) + "</span>" +
+          '<span class="opt-meta">Barbier professionnel</span></button>';
+      });
+      out += '<button class="opt ' + (st.barber === "any" ? "selected" : "") + '" data-barber="any">' +
+        '<span class="barber-avatar">?</span><span class="opt-name">Peu importe</span>' +
+        '<span class="opt-meta">Le premier disponible</span></button>';
+      return out + "</div>" + actions("Retour", null);
+    }
+
+    function renderSlots() {
+      var out = '<div class="step-title">Quand ?</div><div class="step-hint">Sélectionnez un jour puis un créneau libre.</div>';
+      var start = todayISO();
+      out += '<div class="date-strip">';
+      for (var i = 0; i <= Math.min(st.config.maxDaysAhead, 27); i++) {
+        var iso = addDays(start, i);
+        var p = dateParts(iso);
+        out += '<button class="date-chip ' + (st.date === iso ? "selected" : "") + '" data-date="' + iso + '">' +
+          '<div class="date-chip-day">' + (i === 0 ? "auj." : p.dow) + "</div>" +
+          '<div class="date-chip-num">' + p.num + "</div>" +
+          '<div class="date-chip-mon">' + p.mon + "</div></button>";
+      }
+      out += "</div>";
+
+      if (st.loadingSlots) {
+        out += '<div class="booking-empty">Chargement des créneaux…</div>';
+      } else if (!st.date) {
+        out += '<div class="booking-empty">Choisissez d\'abord un jour.</div>';
+      } else {
+        var slots = availableSlots();
+        if (!slots.length) {
+          out += '<div class="booking-empty">Aucun créneau libre ce jour-là. Essayez une autre date.</div>';
+        } else {
+          out += '<div class="slot-grid">';
+          slots.forEach(function (s) {
+            out += '<button class="slot ' + (st.slot === s ? "selected" : "") + '" data-slot="' + s + '">' + hhmm(s) + "</button>";
+          });
+          out += "</div>";
+        }
+      }
+      return out + actions("Retour", null);
+    }
+
+    function availableSlots() {
+      if (!st.avail || st.avail.closed) return [];
+      var by = st.avail.barbers || {};
+      if (st.barber && st.barber !== "any") return by[st.barber] || [];
+      var set = {};
+      Object.keys(by).forEach(function (b) {
+        (by[b] || []).forEach(function (s) { set[s] = true; });
+      });
+      return Object.keys(set).map(Number).sort(function (a, b) { return a - b; });
+    }
+
+    function renderDetails() {
+      return '<div class="step-title">Vos coordonnées</div>' +
+        '<div class="step-hint">Pour confirmer votre rendez-vous et vous prévenir en cas d\'imprévu.</div>' +
+        summary(true) +
+        '<div class="booking-field"><label for="bk-name">Nom et prénom *</label>' +
+        '<input id="bk-name" type="text" autocomplete="name" maxlength="80" placeholder="Karim Benali" value="' + esc(st.name || "") + '"></div>' +
+        '<div class="booking-field"><label for="bk-phone">Téléphone *</label>' +
+        '<input id="bk-phone" type="tel" autocomplete="tel" maxlength="25" placeholder="06 12 34 56 78" value="' + esc(st.phone || "") + '"></div>' +
+        '<div class="booking-field"><label for="bk-email">Email (facultatif)</label>' +
+        '<input id="bk-email" type="email" autocomplete="email" maxlength="120" placeholder="vous@exemple.fr" value="' + esc(st.email || "") + '"></div>' +
+        '<div class="booking-field"><label for="bk-note">Une précision ? (facultatif)</label>' +
+        '<textarea id="bk-note" maxlength="300" placeholder="Dégradé bas, barbe courte…">' + esc(st.note || "") + "</textarea></div>" +
+        actions("Retour", st.busy ? '<span class="spinner"></span>Confirmation…' : "Confirmer le rendez-vous");
+    }
+
+    function renderConfirmed() {
+      var r = st.result;
+      return '<div class="confirm-box"><div class="confirm-icon">✓</div>' +
+        '<div class="confirm-title">C\'est confirmé !</div>' +
+        '<p class="confirm-text">Merci ' + esc(r.name) + ", on vous attend chez Luxury Barber.</p>" +
+        '<div class="summary">' +
+        '<div class="summary-row"><span>Prestation</span><span>' + esc(r.service) + "</span></div>" +
+        '<div class="summary-row"><span>Barbier</span><span>' + esc(r.barber) + "</span></div>" +
+        '<div class="summary-row"><span>Quand</span><span>' + longDate(r.date) + " à " + r.time.replace(":", "h") + "</span></div>" +
+        '<div class="summary-row"><span>Adresse</span><span>11 Rue Dumeril, Amiens</span></div>' +
+        '<div class="summary-row summary-total"><span>À régler sur place</span><span>' + money(r.price) + "</span></div>" +
+        "</div>" +
+        '<p class="confirm-text" style="margin-bottom:0">Un empêchement ? Annulez pour libérer le créneau.</p>' +
+        '<button class="cancel-link" data-action="cancel-mine">Annuler mon rendez-vous</button>' +
+        '<div style="margin-top:26px"><button class="btn-back" data-action="restart">Prendre un autre rendez-vous</button></div>' +
+        "</div>";
+    }
+
+    function renderCancelled() {
+      return '<div class="confirm-box"><div class="confirm-icon">✕</div>' +
+        '<div class="confirm-title">Rendez-vous annulé</div>' +
+        '<p class="confirm-text">Le créneau a été libéré. À bientôt chez Luxury Barber.</p>' +
+        '<button class="btn-submit" style="max-width:280px;margin:0 auto" data-action="restart">Prendre un nouveau rendez-vous</button></div>';
+    }
+
+    function actions(backLabel, submitLabel) {
+      var out = '<div class="booking-actions">';
+      if (backLabel) out += '<button class="btn-back" data-action="back">← ' + backLabel + "</button>";
+      if (submitLabel) out += '<button class="btn-submit" data-action="submit"' + (st.busy ? " disabled" : "") + ">" + submitLabel + "</button>";
+      return out + "</div>";
+    }
+
+    function render() {
+      var html;
+      if (st.cancelled) html = renderCancelled();
+      else if (st.result) html = renderConfirmed();
+      else {
+        html = stepper() + msg();
+        if (st.step === 1) html += renderServices();
+        else if (st.step === 2) html += renderBarbers();
+        else if (st.step === 3) html += renderSlots();
+        else html += renderDetails();
+      }
+      card.innerHTML = html;
+    }
+
+    // ── Data ─────────────────────────────────────────────────────────────
+    function loadConfig() {
+      return fetch(WORKER + "/api/config")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) { if (j && j.services) st.config = j; })
+        .catch(function () {});
+    }
+
+    function loadAvailability(date) {
+      st.loadingSlots = true;
+      st.avail = null;
+      render();
+      return fetch(WORKER + "/api/availability?date=" + encodeURIComponent(date))
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j && j.error) throw new Error(j.error);
+          st.avail = j;
+        })
+        .catch(function () {
+          st.error = "Impossible de charger les créneaux. Vérifiez votre connexion.";
+        })
+        .then(function () {
+          st.loadingSlots = false;
+          render();
+        });
+    }
+
+    function submitBooking() {
+      var name = (document.getElementById("bk-name") || {}).value || "";
+      var phone = (document.getElementById("bk-phone") || {}).value || "";
+      var email = (document.getElementById("bk-email") || {}).value || "";
+      var note = (document.getElementById("bk-note") || {}).value || "";
+      st.name = name; st.phone = phone; st.email = email; st.note = note;
+
+      if (name.trim().length < 2) { st.error = "Merci d'indiquer votre nom."; return render(); }
+      if (phone.replace(/\D/g, "").length < 6) { st.error = "Merci d'indiquer un téléphone valide."; return render(); }
+
+      st.error = "";
+      st.busy = true;
+      render();
+
+      fetch(WORKER + "/api/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: st.service, barber: st.barber, date: st.date, slot: st.slot,
+          name: name, phone: phone, email: email, note: note
+        })
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          st.busy = false;
+          if (!res.ok) {
+            st.error = res.j && res.j.error ? res.j.error : "La réservation a échoué. Réessayez.";
+            // The slot was taken while they were typing — send them back to pick another.
+            if (/réservé|disponible|passé/i.test(st.error)) {
+              st.slot = null;
+              st.step = 3;
+              if (st.date) return loadAvailability(st.date);
+            }
+            return render();
+          }
+          res.j.name = st.name;
+          st.result = res.j;
+          try {
+            localStorage.setItem("lb_last_booking", JSON.stringify({ id: res.j.id, token: res.j.cancelToken }));
+          } catch (e) {}
+          render();
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        })
+        .catch(function () {
+          st.busy = false;
+          st.error = "Connexion impossible. Réessayez dans un instant.";
+          render();
+        });
+    }
+
+    function cancelBooking(id, tok) {
+      return fetch(WORKER + "/api/cancel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id, token: tok })
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) { st.error = (res.j && res.j.error) || "Annulation impossible."; return render(); }
+          st.result = null;
+          st.cancelled = true;
+          render();
+        })
+        .catch(function () { st.error = "Connexion impossible."; render(); });
+    }
+
+    // ── Events ───────────────────────────────────────────────────────────
+    card.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-service],[data-barber],[data-date],[data-slot],[data-action]");
+      if (!t) return;
+
+      if (t.dataset.service) {
+        st.service = t.dataset.service; st.error = ""; st.step = 2; return render();
+      }
+      if (t.dataset.barber) {
+        st.barber = t.dataset.barber; st.error = ""; st.step = 3; st.slot = null;
+        render();
+        if (st.date) loadAvailability(st.date);
+        return;
+      }
+      if (t.dataset.date) {
+        st.date = t.dataset.date; st.slot = null; st.error = "";
+        return loadAvailability(st.date);
+      }
+      if (t.dataset.slot) {
+        st.slot = Number(t.dataset.slot); st.error = ""; st.step = 4; return render();
+      }
+
+      var a = t.dataset.action;
+      if (a === "back") { st.error = ""; st.step = Math.max(1, st.step - 1); return render(); }
+      if (a === "submit") return submitBooking();
+      if (a === "restart") {
+        st = Object.assign(st, {
+          step: 1, service: null, barber: null, date: null, slot: null,
+          result: null, cancelled: false, error: "", avail: null,
+          name: "", phone: "", email: "", note: ""
+        });
+        return render();
+      }
+      if (a === "cancel-mine" && st.result) {
+        return cancelBooking(st.result.id, st.result.cancelToken);
+      }
+    });
+
+    // Deep link from the price cards: pick that service and jump to step 2.
+    document.querySelectorAll("[data-book-service]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        st.service = el.dataset.bookService;
+        st.step = 2;
+        st.error = "";
+        render();
+      });
+    });
+
+    // ── Boot ─────────────────────────────────────────────────────────────
+    render();
+    loadConfig().then(function () {
+      render();
+      // Cancellation link from the confirmation email.
+      var qs = new URLSearchParams(location.search);
+      var id = qs.get("annuler");
+      var tok = qs.get("token");
+      if (id && tok) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        cancelBooking(id, tok);
+        history.replaceState(null, "", location.pathname);
+      }
+    });
+  })();
+  </script>
 
   <!-- FOOTER -->
   <footer>
@@ -910,6 +1723,7 @@
     <ul class="footer-links">
       <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#avis">Avis</a></li>
+      <li><a href="#reserver">Réserver</a></li>
       <li><a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Planity</a></li>
       <li><a href="https://www.instagram.com/luxurybarber80/" target="_blank" rel="noopener">Instagram</a></li>
     </ul>
