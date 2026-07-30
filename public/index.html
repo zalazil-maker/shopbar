@@ -363,10 +363,99 @@
 
     .service-card:hover::before { opacity: 1; }
 
-    .service-icon {
-      font-size: 2rem;
-      margin-bottom: 20px;
+    /* Every illustration inherits its colour and line weight from here, so the
+       whole set stays visually consistent wherever it is used. */
+    .ill {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
       display: block;
+    }
+
+    .service-icon {
+      width: 46px;
+      height: 46px;
+      margin-bottom: 20px;
+      color: var(--gold);
+      transition: transform 0.25s ease;
+    }
+
+    .service-card:hover .service-icon { transform: translateY(-2px) scale(1.06); }
+
+    /* ── NOS COUPES ── */
+    .cuts-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 90px 5%;
+    }
+
+    .cuts-header { text-align: center; margin-bottom: 52px; }
+
+    /* Fixed 3 columns so the six cards land as a tidy 3x2 block rather than
+       auto-fitting into a 5 + 1 orphan row. */
+    .cuts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 760px) {
+      .cuts-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .cut-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 24px 16px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .cut-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 55% at 50% 28%, rgba(201,162,39,0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .cut-card:hover { border-color: rgba(201,162,39,0.45); transform: translateY(-4px); }
+    .cut-card:hover::after { opacity: 1; }
+
+    .cut-ill {
+      width: 118px;
+      height: 142px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .cut-card:hover .cut-ill { transform: scale(1.05); }
+
+    .cut-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .cut-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      position: relative;
     }
 
     .service-name {
@@ -747,6 +836,7 @@
     .opt:hover { border-color: rgba(201,162,39,0.5); transform: translateY(-2px); }
     .opt.selected { border-color: var(--gold); background: rgba(201,162,39,0.1); }
 
+    .opt-ico { width: 30px; height: 30px; color: var(--gold); margin-bottom: 2px; }
     .opt-name { font-weight: 600; }
     .opt-meta { font-size: 0.82rem; color: var(--text-muted); }
     .opt-price { color: var(--gold); font-weight: 600; font-size: 1.05rem; }
@@ -990,11 +1080,122 @@
 </head>
 <body>
 
+  <!-- ILLUSTRATIONS — inline so the page stays self-contained (no image files,
+       nothing to load). Every shape is stroked with currentColor so the gold
+       tone comes from CSS. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- shared building blocks -->
+      <g id="p-face">
+        <path d="M26 46 L26 62 C26 78 36 88 50 88 C64 88 74 78 74 62 L74 46" />
+        <path d="M26 54 C20 54 19 65 25 66" />
+        <path d="M74 54 C80 54 81 65 75 66" />
+      </g>
+      <g id="p-shoulders">
+        <path d="M40 86 L40 95 C27 98 18 103 14 112" />
+        <path d="M60 86 L60 95 C73 98 82 103 86 112" />
+      </g>
+
+      <!-- ── coupes ── -->
+      <symbol id="cut-degrade" viewBox="0 0 100 120">
+        <use href="#p-face" />
+        <path d="M26 53 C23 26 34 15 50 15 C66 15 77 26 74 53 C70 37 63 31 50 31 C37 31 30 37 26 53 Z" />
+        <path d="M27 58 L33 56" /><path d="M28 64 L34 61" /><path d="M30 70 L35 67" />
+        <path d="M73 58 L67 56" /><path d="M72 64 L66 61" /><path d="M70 70 L65 67" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <symbol id="cut-classique" viewBox="0 0 100 120">
+        <use href="#p-face" />
+        <path d="M26 50 C26 24 36 13 50 13 C65 13 75 24 74 50 C73 33 66 27 52 27 C38 27 27 34 26 50 Z" />
+        <path d="M38 15 C41 26 41 39 39 49" />
+        <path d="M45 18 C53 21 61 26 67 34" />
+        <path d="M43 25 C51 28 58 33 63 40" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <symbol id="cut-undercut" viewBox="0 0 100 120">
+        <use href="#p-face" />
+        <path d="M34 43 C30 21 39 10 50 10 C61 10 70 21 66 43 C63 27 58 21 50 21 C42 21 37 27 34 43 Z" />
+        <path d="M34 43 L26 47" /><path d="M66 43 L74 47" />
+        <path d="M27 54 L34 51" /><path d="M73 54 L66 51" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <symbol id="cut-buzz" viewBox="0 0 100 120">
+        <use href="#p-face" />
+        <path d="M27 49 C27 33 37 25 50 25 C63 25 73 33 73 49 C72 43 63 39 50 39 C37 39 28 43 27 49 Z" />
+        <path d="M36 32 L36 35" /><path d="M43 29 L43 32" /><path d="M50 28 L50 31" />
+        <path d="M57 29 L57 32" /><path d="M64 32 L64 35" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <symbol id="cut-barbe" viewBox="0 0 100 120">
+        <path d="M26 46 L26 58" /><path d="M74 46 L74 58" />
+        <path d="M26 54 C20 54 19 65 25 66" />
+        <path d="M74 54 C80 54 81 65 75 66" />
+        <path d="M27 47 C27 30 37 21 50 21 C63 21 73 30 73 47 C71 38 63 33 50 33 C37 33 29 38 27 47 Z" />
+        <path d="M26 58 C26 72 30 82 37 87 C41 90 45 91 50 91 C55 91 59 90 63 87 C70 82 74 72 74 58" />
+        <path d="M28 61 C33 70 40 74 50 74 C60 74 67 70 72 61" />
+        <path d="M50 65 C47 62 43 63 41 66" /><path d="M50 65 C53 62 57 63 59 66" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <symbol id="cut-enfant" viewBox="0 0 100 120">
+        <path d="M32 50 L32 62 C32 76 39 84 50 84 C61 84 68 76 68 62 L68 50" />
+        <path d="M32 55 C27 55 26 65 31 66" />
+        <path d="M68 55 C73 55 74 65 69 66" />
+        <path d="M32 52 C31 32 39 23 50 23 C61 23 69 32 68 52 C66 42 60 37 50 37 C40 37 34 42 32 52 Z" />
+        <path d="M40 30 C42 35 42 40 41 43" />
+        <path d="M50 27 C51 33 51 38 50 41" />
+        <path d="M60 30 C59 35 59 40 60 43" />
+        <use href="#p-shoulders" />
+      </symbol>
+
+      <!-- ── outils ── -->
+      <symbol id="ico-ciseaux" viewBox="0 0 48 48">
+        <path d="M14 5 L30 33" /><path d="M34 5 L18 33" />
+        <circle cx="13" cy="39" r="5" /><circle cx="35" cy="39" r="5" />
+        <circle cx="24" cy="24" r="1.6" />
+      </symbol>
+
+      <!-- tondeuse: reads far more clearly at 46px than a straight razor -->
+      <symbol id="ico-rasoir" viewBox="0 0 48 48">
+        <path d="M17 6 L17 11" /><path d="M21 6 L21 11" /><path d="M24 6 L24 11" />
+        <path d="M28 6 L28 11" /><path d="M31 6 L31 11" />
+        <path d="M14 11 L34 11 L34 17 L14 17 Z" />
+        <path d="M16 17 L32 17 L32 39 C32 41 30 43 28 43 L20 43 C18 43 16 41 16 39 Z" />
+        <path d="M20 23 L28 23" />
+      </symbol>
+
+      <symbol id="ico-poteau" viewBox="0 0 48 48">
+        <rect x="15" y="12" width="18" height="24" rx="9" />
+        <path d="M16 23 L32 16" /><path d="M16 30 L32 23" /><path d="M17 36 L32 30" />
+        <path d="M12 12 L36 12" /><path d="M12 36 L36 36" />
+        <path d="M24 12 L24 8" /><circle cx="24" cy="6" r="2" />
+        <path d="M24 36 L24 41" />
+      </symbol>
+
+      <symbol id="ico-enfant" viewBox="0 0 48 48">
+        <circle cx="24" cy="16" r="9" />
+        <path d="M15 14 C16 8 19 5 24 5 C29 5 32 8 33 14" />
+        <path d="M10 43 C10 33 16 28 24 28 C32 28 38 33 38 43" />
+      </symbol>
+
+      <symbol id="ico-peigne" viewBox="0 0 48 48">
+        <path d="M8 18 L40 18 L40 26 L8 26 Z" />
+        <path d="M13 26 L13 38" /><path d="M19 26 L19 38" /><path d="M25 26 L25 38" />
+        <path d="M31 26 L31 38" /><path d="M37 26 L37 38" />
+      </symbol>
+    </defs>
+  </svg>
+
   <!-- NAV -->
   <nav>
     <a class="nav-logo" href="#">Luxury Barber</a>
     <ul class="nav-links">
       <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#coupes">Coupes</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="#infos">Infos</a></li>
       <li><a href="#reserver" class="nav-cta">Réserver</a></li>
@@ -1013,6 +1214,30 @@
       <a href="#tarifs" class="btn-outline">Voir les tarifs</a>
     </div>
     <div class="hero-scroll">Découvrir</div>
+  </section>
+
+  <!-- RÉSERVATION -->
+  <section id="reserver" class="booking-section">
+    <div class="booking-inner">
+      <div class="booking-header">
+        <span class="section-label">Prêt ?</span>
+        <h2 class="section-title">Réservez votre séance</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">Choisissez votre prestation, votre barbier et votre créneau. Confirmation immédiate.</p>
+      </div>
+
+      <div class="booking-card" id="booking-card">
+        <noscript>
+          <p style="color: var(--text-muted);">
+            La réservation en ligne nécessite JavaScript. Vous pouvez aussi réserver sur
+            <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" style="color: var(--gold);">Planity</a>.
+          </p>
+        </noscript>
+      </div>
+
+      <p class="planity-fallback">
+        Vous préférez Planity ? <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Réserver sur Planity →</a>
+      </p>
+    </div>
   </section>
 
   <!-- RATING -->
@@ -1059,7 +1284,7 @@
       <div class="services-grid">
 
         <div class="service-card">
-          <span class="service-icon">✂️</span>
+          <svg class="service-icon ill"><use href="#ico-ciseaux"/></svg>
           <div class="service-name">Cheveux</div>
           <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
           <div class="service-price">
@@ -1072,7 +1297,7 @@
         </div>
 
         <div class="service-card">
-          <span class="service-icon">🧔</span>
+          <svg class="service-icon ill"><use href="#ico-rasoir"/></svg>
           <div class="service-name">Barbe</div>
           <div class="service-desc">Taille et contours de barbe à la tondeuse et au rasoir, finition serviette chaude. Net, précis, rapide.</div>
           <div class="service-price">
@@ -1085,7 +1310,7 @@
         </div>
 
         <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
-          <span class="service-icon">💈</span>
+          <svg class="service-icon ill"><use href="#ico-poteau"/></svg>
           <div class="service-name">Cheveux + Barbe</div>
           <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
           <div class="service-price">
@@ -1098,7 +1323,7 @@
         </div>
 
         <div class="service-card">
-          <span class="service-icon">👦</span>
+          <svg class="service-icon ill"><use href="#ico-enfant"/></svg>
           <div class="service-name">Enfant</div>
           <div class="service-desc">Coupe pour les petits dans une ambiance détendue. Pour que vos enfants repartent contents et bien coiffés.</div>
           <div class="service-price">
@@ -1109,6 +1334,54 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- NOS COUPES -->
+  <section id="coupes" class="cuts-section">
+    <div class="cuts-header">
+      <span class="section-label">Le savoir-faire</span>
+      <h2 class="section-title">Les coupes de la maison</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">Dites-nous ce qui vous plaît — ou laissez Momo et Amine vous conseiller.</p>
+    </div>
+    <div class="cuts-grid">
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-degrade"/></svg>
+        <div class="cut-name">Dégradé</div>
+        <div class="cut-desc">Fondu net des tempes à la nuque</div>
+      </div>
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-classique"/></svg>
+        <div class="cut-name">Classique</div>
+        <div class="cut-desc">Raie sur le côté, toujours élégant</div>
+      </div>
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-undercut"/></svg>
+        <div class="cut-name">Undercut</div>
+        <div class="cut-desc">Volume sur le dessus, côtés courts</div>
+      </div>
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-buzz"/></svg>
+        <div class="cut-name">Très court</div>
+        <div class="cut-desc">La tondeuse, simple et impeccable</div>
+      </div>
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-barbe"/></svg>
+        <div class="cut-name">Coupe + Barbe</div>
+        <div class="cut-desc">Contours au rasoir, serviette chaude</div>
+      </div>
+
+      <div class="cut-card">
+        <svg class="cut-ill ill"><use href="#cut-enfant"/></svg>
+        <div class="cut-name">Enfant</div>
+        <div class="cut-desc">Patience et bonne humeur garanties</div>
+      </div>
+
     </div>
   </section>
 
@@ -1272,30 +1545,6 @@
     </div>
   </div>
 
-  <!-- RÉSERVATION -->
-  <section id="reserver" class="booking-section">
-    <div class="booking-inner">
-      <div class="booking-header">
-        <span class="section-label">Prêt ?</span>
-        <h2 class="section-title">Réservez votre séance</h2>
-        <p class="section-subtitle" style="margin: 0 auto;">Choisissez votre prestation, votre barbier et votre créneau. Confirmation immédiate.</p>
-      </div>
-
-      <div class="booking-card" id="booking-card">
-        <noscript>
-          <p style="color: var(--text-muted);">
-            La réservation en ligne nécessite JavaScript. Vous pouvez aussi réserver sur
-            <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener" style="color: var(--gold);">Planity</a>.
-          </p>
-        </noscript>
-      </div>
-
-      <p class="planity-fallback">
-        Vous préférez Planity ? <a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Réserver sur Planity →</a>
-      </p>
-    </div>
-  </section>
-
   <script>
   (function () {
     "use strict";
@@ -1317,7 +1566,7 @@
       today: null
     };
 
-    var ICONS = { cheveux: "✂️", barbe: "🧔", both: "💈", enfant: "👦" };
+    var ICONS = { cheveux: "ico-ciseaux", barbe: "ico-rasoir", both: "ico-poteau", enfant: "ico-enfant" };
     var DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
     var MONTHS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
 
@@ -1428,7 +1677,7 @@
       Object.keys(st.config.services).forEach(function (key) {
         var s = st.config.services[key];
         out += '<button class="opt ' + (st.service === key ? "selected" : "") + '" data-service="' + esc(key) + '">' +
-          '<span style="font-size:1.5rem">' + (ICONS[key] || "✂️") + "</span>" +
+          '<svg class="opt-ico ill"><use href="#' + (ICONS[key] || "ico-ciseaux") + '"/></svg>' +
           '<span class="opt-name">' + esc(s.label) + "</span>" +
           '<span class="opt-price">' + money(s.price) +
           (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
