@@ -1,0 +1,17 @@
+{
+  // Deploy config for the website. Cloudflare generated this on the first
+  // build with "directory": ".", which uploaded the whole repository — the
+  // .git folder included — and served it publicly. Only ./public is published
+  // now, so nothing outside it can ever be exposed. (.assetsignore is not
+  // honoured by wrangler here, hence the directory split rather than a
+  // deny-list.)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "shopbar",
+  "compatibility_date": "2026-07-30",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./public"
+  }
+}
