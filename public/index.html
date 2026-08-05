@@ -1853,7 +1853,8 @@
         '<input id="bk-phone" type="tel" autocomplete="tel" maxlength="25" placeholder="06 12 34 56 78" value="' + esc(st.phone || "") + '"></div>' +
         '<div class="booking-field"><label for="bk-email">Email *</label>' +
         '<input id="bk-email" type="email" autocomplete="email" maxlength="120" placeholder="vous@exemple.fr" value="' + esc(st.email || "") + '">' +
-        '<span class="field-hint">Pour recevoir votre confirmation et pouvoir annuler en un clic.</span></div>' +
+        '<span class="field-hint">Pour recevoir votre confirmation et pouvoir annuler en un clic. ' +
+        'Vous recevrez aussi nos actualités du salon — désinscription en un clic à tout moment.</span></div>' +
         '<div class="booking-field"><label for="bk-note">Une précision ? (facultatif)</label>' +
         '<textarea id="bk-note" maxlength="300" placeholder="Dégradé bas, barbe courte…">' + esc(st.note || "") + "</textarea></div>" +
         actions("Retour", st.busy ? '<span class="spinner"></span>Confirmation…' : "Confirmer le rendez-vous");
