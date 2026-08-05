@@ -749,6 +749,82 @@
 
     .service-card:hover .service-book { opacity: 1; }
 
+    /* ── GALERIE ── */
+    .gallery-section {
+      background: var(--dark-2);
+      padding: 90px 5%;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .gallery-inner { max-width: 1100px; margin: 0 auto; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .gallery-item {
+      position: relative;
+      margin: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      aspect-ratio: 1 / 1;
+      cursor: default;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .gallery-item.is-video { cursor: pointer; }
+    .gallery-item:hover { border-color: rgba(201,162,39,0.45); transform: translateY(-3px); }
+
+    .gallery-item img,
+    .gallery-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-play {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: rgba(13,13,13,0.6);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      padding-left: 3px;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-item:hover .gallery-play { opacity: 0; }
+
+    .gallery-item figcaption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 24px 12px 10px;
+      font-size: 0.8rem;
+      color: var(--text);
+      background: linear-gradient(to top, rgba(13,13,13,0.85), transparent);
+    }
+
+    .field-hint {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .barber-photo { object-fit: cover; }
+
     /* ── BOOKING ── */
     .booking-section {
       background: var(--dark-2);
@@ -1281,7 +1357,7 @@
         <p class="section-subtitle" style="margin: 0 auto;">Des prix transparents pour chaque prestation, sans mauvaise surprise.</p>
         <p class="tarifs-note">Ces tarifs sont réservés aux rendez-vous pris <strong>directement sur ce site</strong>. Sur Planity ou sans rendez-vous, le tarif normal s'applique.</p>
       </div>
-      <div class="services-grid">
+      <div class="services-grid" id="services-grid">
 
         <div class="service-card">
           <svg class="service-icon ill"><use href="#ico-ciseaux"/></svg>
@@ -1382,6 +1458,18 @@
         <div class="cut-desc">Patience et bonne humeur garanties</div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- GALERIE (remplie depuis /admin ; masquée tant qu'il n'y a rien) -->
+  <section id="galerie" class="gallery-section" hidden>
+    <div class="gallery-inner">
+      <div class="cuts-header">
+        <span class="section-label">En images</span>
+        <h2 class="section-title">Nos réalisations</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">Le travail de Momo et Amine, en photos et en vidéos.</p>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
     </div>
   </section>
 
@@ -1688,12 +1776,20 @@
       return out + "</div>";
     }
 
+    function barberPhoto(id) {
+      var info = (st.config.barberInfo || []).filter(function (b) { return b.id === id; })[0];
+      return info && info.photo ? WORKER + info.photo : null;
+    }
+
     function renderBarbers() {
       var out = '<div class="step-title">Avec quel barbier ?</div>' +
         '<div class="step-hint">Choisissez votre barbier, ou laissez-nous vous placer au plus tôt.</div><div class="opt-grid">';
       st.config.barbers.forEach(function (b) {
+        var photo = barberPhoto(b);
         out += '<button class="opt ' + (st.barber === b ? "selected" : "") + '" data-barber="' + esc(b) + '">' +
-          '<span class="barber-avatar">' + esc(b.charAt(0)) + "</span>" +
+          (photo
+            ? '<img class="barber-avatar barber-photo" src="' + esc(photo) + '" alt="' + esc(b) + '">'
+            : '<span class="barber-avatar">' + esc(b.charAt(0)) + "</span>") +
           '<span class="opt-name">' + esc(b) + "</span>" +
           '<span class="opt-meta">Barbier professionnel</span></button>';
       });
@@ -1755,8 +1851,9 @@
         '<input id="bk-name" type="text" autocomplete="name" maxlength="80" placeholder="Karim Benali" value="' + esc(st.name || "") + '"></div>' +
         '<div class="booking-field"><label for="bk-phone">Téléphone *</label>' +
         '<input id="bk-phone" type="tel" autocomplete="tel" maxlength="25" placeholder="06 12 34 56 78" value="' + esc(st.phone || "") + '"></div>' +
-        '<div class="booking-field"><label for="bk-email">Email (facultatif)</label>' +
-        '<input id="bk-email" type="email" autocomplete="email" maxlength="120" placeholder="vous@exemple.fr" value="' + esc(st.email || "") + '"></div>' +
+        '<div class="booking-field"><label for="bk-email">Email *</label>' +
+        '<input id="bk-email" type="email" autocomplete="email" maxlength="120" placeholder="vous@exemple.fr" value="' + esc(st.email || "") + '">' +
+        '<span class="field-hint">Pour recevoir votre confirmation et pouvoir annuler en un clic.</span></div>' +
         '<div class="booking-field"><label for="bk-note">Une précision ? (facultatif)</label>' +
         '<textarea id="bk-note" maxlength="300" placeholder="Dégradé bas, barbe courte…">' + esc(st.note || "") + "</textarea></div>" +
         actions("Retour", st.busy ? '<span class="spinner"></span>Confirmation…' : "Confirmer le rendez-vous");
@@ -1844,6 +1941,10 @@
 
       if (name.trim().length < 2) { st.error = "Merci d'indiquer votre nom."; return render(); }
       if (phone.replace(/\D/g, "").length < 6) { st.error = "Merci d'indiquer un téléphone valide."; return render(); }
+      if (!/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email.trim())) {
+        st.error = "Merci d'indiquer un email valide — c'est là que part votre confirmation.";
+        return render();
+      }
 
       st.error = "";
       st.busy = true;
@@ -1939,6 +2040,71 @@
       }
     });
 
+    // The tarif cards ship as static HTML so they are in the page for search
+    // engines, then get rebuilt from /api/config so an edit in /admin shows up
+    // straight away — including services added after this page was written.
+    function renderTarifs() {
+      var grid = document.getElementById("services-grid");
+      if (!grid || !st.config.services) return;
+      var keys = Object.keys(st.config.services);
+      if (!keys.length) return;
+
+      grid.innerHTML = keys.map(function (key) {
+        var s = st.config.services[key];
+        var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
+        return '<div class="service-card">' +
+          '<svg class="service-icon ill"><use href="#' + esc(s.icon || "ico-ciseaux") + '"/></svg>' +
+          '<div class="service-name">' + esc(s.label) + "</div>" +
+          '<div class="service-desc">' + esc(s.desc || "") + "</div>" +
+          '<div class="service-price"><span class="price-amount">' + money(s.price).replace(" €", "") + "</span>" +
+          '<span class="price-currency">€</span>' +
+          (s.planity ? '<span class="price-was">' + money(s.planity) + " sur Planity</span>" : "") +
+          "</div>" +
+          (save > 0 ? '<div class="price-save">Économisez ' + money(save) + " en réservant ici</div>" : "") +
+          '<a href="#reserver" class="service-book" data-book-service="' + esc(key) + '">Réserver →</a>' +
+          "</div>";
+      }).join("");
+
+      grid.querySelectorAll("[data-book-service]").forEach(function (el) {
+        el.addEventListener("click", function () {
+          st.service = el.dataset.bookService;
+          st.step = 2;
+          st.error = "";
+          render();
+        });
+      });
+    }
+
+    // Photos and videos of the shop's work, uploaded from /admin.
+    function renderGallery() {
+      var sec = document.getElementById("galerie");
+      var grid = document.getElementById("gallery-grid");
+      if (!sec || !grid) return;
+      var items = st.config.media || [];
+      if (!items.length) { sec.hidden = true; return; }
+      sec.hidden = false;
+
+      grid.innerHTML = items.map(function (m) {
+        var url = WORKER + m.url;
+        var inner = m.kind === "video"
+          ? '<video src="' + esc(url) + '" muted loop playsinline preload="metadata"></video>' +
+            '<span class="gallery-play" aria-hidden="true">▶</span>'
+          : '<img src="' + esc(url) + '" alt="' + esc(m.caption || "Réalisation Luxury Barber") + '" loading="lazy">';
+        return '<figure class="gallery-item' + (m.kind === "video" ? " is-video" : "") + '">' + inner +
+          (m.caption ? '<figcaption>' + esc(m.caption) + "</figcaption>" : "") + "</figure>";
+      }).join("");
+
+      // Videos play on hover on desktop, on tap on mobile.
+      grid.querySelectorAll("video").forEach(function (v) {
+        var wrap = v.parentNode;
+        wrap.addEventListener("mouseenter", function () { v.play().catch(function () {}); });
+        wrap.addEventListener("mouseleave", function () { v.pause(); });
+        wrap.addEventListener("click", function () {
+          if (v.paused) { v.play().catch(function () {}); } else { v.pause(); }
+        });
+      });
+    }
+
     // Deep link from the price cards: pick that service and jump to step 2.
     document.querySelectorAll("[data-book-service]").forEach(function (el) {
       el.addEventListener("click", function () {
@@ -1953,6 +2119,8 @@
     render();
     loadConfig().then(function () {
       render();
+      renderTarifs();
+      renderGallery();
       // Cancellation link from the confirmation email.
       var qs = new URLSearchParams(location.search);
       var id = qs.get("annuler");
