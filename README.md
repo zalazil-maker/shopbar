@@ -122,6 +122,35 @@ Les prix, barbiers et horaires vivent en base — les constantes en haut de
 Tant que le domaine n'est pas vérifié, l'expéditeur par défaut
 `onboarding@resend.dev` fonctionne pour tester mais finit souvent en spam.
 
+## Les deux emails
+
+| Email | Quand | Annulable ? |
+|-------|-------|-------------|
+| Confirmation du rendez-vous | immédiatement à la réservation | non (transactionnel) |
+| Actualités du salon | **1 heure avant le rendez-vous** | oui, lien de désinscription |
+
+L'email d'actualités part d'un **Cron Trigger**, pas au moment de la
+réservation. Conséquence voulue : un client qui annule ne le reçoit jamais, et
+quelqu'un qui réserve trois semaines à l'avance n'est pas démarché trois
+semaines trop tôt.
+
+### Activer le Cron
+
+Cloudflare → Workers → `barbershop` → **Settings → Triggers → Cron Triggers**
+→ **Add Cron Trigger** :
+
+```
+*/5 * * * *
+```
+
+Toutes les 5 minutes, le Worker cherche les rendez-vous qui commencent dans
+l'heure et envoie l'email à ceux qui ne l'ont pas encore reçu. Sans ce Cron,
+les confirmations partent normalement mais l'email d'actualités n'est jamais
+envoyé.
+
+La désinscription (`/api/unsub`) ne coupe que les actualités : les
+confirmations continuent d'arriver.
+
 ## Photos et vidéos (R2)
 
 1. Cloudflare → **R2** → **Create bucket** → nom `luxurybarber-media`.
