@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Luxury Barber — Amiens</title>
   <meta name="description" content="Luxury Barber à Amiens — Le barbier premium au 11 Rue Dumeril. Coupe 18 €, barbe 9,99 €, coupe + barbe 23,99 €. Réservez en ligne en 30 secondes, moins cher qu'en passant par Planity." />
+  <!-- Favicon: the same LB mark, inlined so there is no extra file to serve. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 165'%3E%3Crect width='200' height='165' fill='%2317120f'/%3E%3Crect x='85' y='24' width='8' height='24' fill='%23c9a227'/%3E%3Crect x='96' y='24' width='8' height='24' fill='%23f0ece4'/%3E%3Crect x='107' y='24' width='8' height='24' fill='%23c9a227'/%3E%3Ctext x='100' y='138' text-anchor='middle' font-family='Georgia,serif' font-size='96' font-weight='700'%3E%3Ctspan fill='%23c9a227'%3EL%3C/tspan%3E%3Ctspan fill='%23f0ece4'%3EB%3C/tspan%3E%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -48,13 +50,41 @@
       border-bottom: 1px solid rgba(201,162,39,0.15);
     }
 
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--gold);
-      text-decoration: none;
-      letter-spacing: 0.05em;
+    /* ── LOGO ── */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      margin: -1px; padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark {
+      width: 46px;
+      height: 38px;
+      border-radius: 3px;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+
+    .footer-logo-mark { width: 40px; height: 33px; border-radius: 3px; display: block; flex-shrink: 0; }
 
     .nav-links {
       display: flex;
@@ -84,6 +114,79 @@
     }
 
     .nav-cta:hover { background: var(--gold-light) !important; color: #000 !important; }
+
+    /* ── MOBILE MENU ── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 0 10px;
+      background: none;
+      border: 1px solid rgba(201,162,39,0.35);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 71px;
+      left: 0; right: 0;
+      z-index: 99;
+      flex-direction: column;
+      background: rgba(13,13,13,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,162,39,0.2);
+      padding: 8px 5% 20px;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      max-height: calc(100vh - 71px);
+      overflow-y: auto;
+    }
+
+    .mobile-menu.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .mobile-menu a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 16px 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    .mobile-menu .mobile-cta {
+      margin-top: 16px;
+      background: var(--gold);
+      color: #000;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 8px;
+      padding: 15px;
+      text-transform: none;
+      letter-spacing: 0.03em;
+    }
 
     /* ── HERO ── */
     .hero {
@@ -676,12 +779,6 @@
       gap: 16px;
     }
 
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: var(--gold);
-    }
-
     .footer-links {
       display: flex;
       gap: 24px;
@@ -1138,6 +1235,8 @@
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .mobile-menu { display: flex; }
       .rating-divider { display: none; }
       .info-section { grid-template-columns: 1fr; gap: 48px; }
       footer { flex-direction: column; text-align: center; }
@@ -1171,6 +1270,23 @@
         <path d="M40 86 L40 95 C27 98 18 103 14 112" />
         <path d="M60 86 L60 95 C73 98 82 103 86 112" />
       </g>
+
+      <!-- ── logo ── -->
+      <!-- Redrawn as vector so it stays sharp at every size and needs no image
+           file. Colours are literal here, not currentColor, because the mark
+           is always the same on its own black tile. -->
+      <!-- Compact variant for the nav bar: at 40px "AMIENS" would be a smudge,
+           so it is dropped and the mark recentred. -->
+      <symbol id="logo-lb-compact" viewBox="0 0 200 165">
+        <rect width="200" height="165" fill="#17120f" />
+        <rect x="85" y="24" width="8" height="24" fill="#c9a227" />
+        <rect x="96" y="24" width="8" height="24" fill="#f0ece4" />
+        <rect x="107" y="24" width="8" height="24" fill="#c9a227" />
+        <text x="100" y="138" text-anchor="middle"
+              font-family="'Playfair Display',Georgia,serif" font-size="96" font-weight="700">
+          <tspan fill="#c9a227">L</tspan><tspan fill="#f0ece4">B</tspan>
+        </text>
+      </symbol>
 
       <!-- ── coupes ── -->
       <symbol id="cut-degrade" viewBox="0 0 100 120">
@@ -1268,7 +1384,9 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-logo" href="#">Luxury Barber</a>
+    <a class="nav-logo" href="#" aria-label="Luxury Barber — accueil">
+      <svg class="nav-logo-mark" viewBox="0 0 200 165" role="img" aria-hidden="true"><use href="#logo-lb-compact"/></svg>
+    </a>
     <ul class="nav-links">
       <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#coupes">Coupes</a></li>
@@ -1276,7 +1394,23 @@
       <li><a href="#infos">Infos</a></li>
       <li><a href="#reserver" class="nav-cta">Réserver</a></li>
     </ul>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu"
+            aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- Narrow screens only: the desktop links are hidden below 768px, so they
+       live here behind the menu button instead of disappearing entirely. -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#tarifs">Tarifs</a>
+    <a href="#coupes">Coupes</a>
+    <a href="#galerie">Réalisations</a>
+    <a href="#avis">Avis</a>
+    <a href="#infos">Infos</a>
+    <a href="#reserver" class="mobile-cta">📅 Prendre rendez-vous</a>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -1634,6 +1768,45 @@
   </div>
 
   <script>
+  // ── Mobile menu ────────────────────────────────────────────────────────
+  (function () {
+    "use strict";
+    var btn = document.getElementById("nav-toggle");
+    var menu = document.getElementById("mobile-menu");
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      menu.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+    }
+
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(btn.getAttribute("aria-expanded") !== "true");
+    });
+
+    // Picking a destination should close it — every link is an anchor on this
+    // same page, so nothing else would.
+    menu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { setOpen(false); });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!menu.contains(e.target) && e.target !== btn) setOpen(false);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setOpen(false);
+    });
+
+    // Rotating back to landscape reveals the normal bar; leaving the panel
+    // open on top of it would cover the page.
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768) setOpen(false);
+    });
+  })();
+
   (function () {
     "use strict";
 
@@ -2137,7 +2310,10 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">Luxury Barber</div>
+    <div class="footer-logo">
+      <svg class="footer-logo-mark" viewBox="0 0 200 165" role="img" aria-hidden="true"><use href="#logo-lb-compact"/></svg>
+      <span>Luxury Barber</span>
+    </div>
     <ul class="footer-links">
       <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#avis">Avis</a></li>
