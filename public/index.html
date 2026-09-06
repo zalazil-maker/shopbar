@@ -846,6 +846,84 @@
 
     .service-card:hover .service-book { opacity: 1; }
 
+    /* ── PRODUITS ── */
+    .products-section {
+      padding: 90px 5%;
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .products-inner { max-width: 1100px; margin: 0 auto; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .product-card {
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 20px 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .product-card:hover { border-color: rgba(201,162,39,0.4); transform: translateY(-3px); }
+
+    .product-photo {
+      background: #fafafa;
+      border-radius: 8px;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-photo img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+
+    .product-brand {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .product-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .product-price {
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-top: 4px;
+    }
+
+    .products-note {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+
     /* ── GALERIE ── */
     .gallery-section {
       background: var(--dark-2);
@@ -1390,6 +1468,7 @@
     <ul class="nav-links">
       <li><a href="#tarifs">Tarifs</a></li>
       <li><a href="#coupes">Coupes</a></li>
+      <li><a href="#produits">Produits</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="#infos">Infos</a></li>
       <li><a href="#reserver" class="nav-cta">Réserver</a></li>
@@ -1406,6 +1485,7 @@
   <div class="mobile-menu" id="mobile-menu">
     <a href="#tarifs">Tarifs</a>
     <a href="#coupes">Coupes</a>
+    <a href="#produits">Produits</a>
     <a href="#galerie">Réalisations</a>
     <a href="#avis">Avis</a>
     <a href="#infos">Infos</a>
@@ -1592,6 +1672,19 @@
         <div class="cut-desc">Patience et bonne humeur garanties</div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- PRODUITS (édités depuis /admin ; la grille se remplit à partir de /api/config) -->
+  <section id="produits" class="products-section">
+    <div class="products-inner">
+      <div class="cuts-header">
+        <span class="section-label">La boutique</span>
+        <h2 class="section-title">Les produits qu'on utilise</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">Les soins que Momo et Amine utilisent au salon — à emporter pour continuer chez vous.</p>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+      <p class="products-note">Les prix ne sont pas affichés ici : demandez-les au salon lors de votre passage.</p>
     </div>
   </section>
 
@@ -2016,7 +2109,18 @@
       return Object.keys(set).map(Number).sort(function (a, b) { return a - b; });
     }
 
+    function needsSkinType() {
+      var list = st.config.skinTypeServices || [];
+      return list.indexOf(st.service) >= 0;
+    }
+
     function renderDetails() {
+      var skinField = needsSkinType()
+        ? '<div class="booking-field"><label for="bk-skin">Type de peau *</label>' +
+          '<input id="bk-skin" type="text" maxlength="60" placeholder="grasse, sèche, mixte, sensible, irritée…" value="' + esc(st.skinType || "") + '">' +
+          '<span class="field-hint">Le traitement complet inclut un soin visage — dites-nous ce qui convient à votre peau.</span></div>'
+        : "";
+
       return '<div class="step-title">Vos coordonnées</div>' +
         '<div class="step-hint">Pour confirmer votre rendez-vous et vous prévenir en cas d\'imprévu.</div>' +
         summary(true) +
@@ -2028,6 +2132,7 @@
         '<input id="bk-email" type="email" autocomplete="email" maxlength="120" placeholder="vous@exemple.fr" value="' + esc(st.email || "") + '">' +
         '<span class="field-hint">Pour recevoir votre confirmation et pouvoir annuler en un clic. ' +
         'Vous recevrez aussi nos actualités du salon — désinscription en un clic à tout moment.</span></div>' +
+        skinField +
         '<div class="booking-field"><label for="bk-note">Une précision ? (facultatif)</label>' +
         '<textarea id="bk-note" maxlength="300" placeholder="Dégradé bas, barbe courte…">' + esc(st.note || "") + "</textarea></div>" +
         actions("Retour", st.busy ? '<span class="spinner"></span>Confirmation…' : "Confirmer le rendez-vous");
@@ -2111,12 +2216,17 @@
       var phone = (document.getElementById("bk-phone") || {}).value || "";
       var email = (document.getElementById("bk-email") || {}).value || "";
       var note = (document.getElementById("bk-note") || {}).value || "";
-      st.name = name; st.phone = phone; st.email = email; st.note = note;
+      var skinType = (document.getElementById("bk-skin") || {}).value || "";
+      st.name = name; st.phone = phone; st.email = email; st.note = note; st.skinType = skinType;
 
       if (name.trim().length < 2) { st.error = "Merci d'indiquer votre nom."; return render(); }
       if (phone.replace(/\D/g, "").length < 6) { st.error = "Merci d'indiquer un téléphone valide."; return render(); }
       if (!/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email.trim())) {
         st.error = "Merci d'indiquer un email valide — c'est là que part votre confirmation.";
+        return render();
+      }
+      if (needsSkinType() && skinType.trim().length < 2) {
+        st.error = "Merci de préciser votre type de peau — c'est utile pour le soin visage.";
         return render();
       }
 
@@ -2129,7 +2239,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           service: st.service, barber: st.barber, date: st.date, slot: st.slot,
-          name: name, phone: phone, email: email, note: note
+          name: name, phone: phone, email: email, note: note, skinType: skinType
         })
       })
         .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
@@ -2249,6 +2359,41 @@
       });
     }
 
+    // Product catalogue — cards rebuilt from /api/config so admin edits show
+    // up immediately. A product photo missing (e.g. broken URL) falls back to
+    // the shop's logo tile so the layout stays consistent.
+    function renderProducts() {
+      var grid = document.getElementById("products-grid");
+      var note = document.querySelector(".products-note");
+      if (!grid) return;
+      var items = st.config.products || [];
+      if (!items.length) { grid.innerHTML = ""; if (note) note.hidden = true; return; }
+
+      grid.innerHTML = items.map(function (p) {
+        // Product images are static files on the site itself, so a bare path
+        // stays on-domain. A full URL (an admin-uploaded image via R2) goes
+        // through the Worker.
+        var img = p.image
+          ? (/^https?:/i.test(p.image) ? p.image : (p.image.charAt(0) === "/" ? p.image : "/" + p.image))
+          : "";
+        return '<div class="product-card">' +
+          '<div class="product-photo">' +
+            (img
+              ? '<img src="' + esc(img) + '" alt="' + esc(p.label) + '" loading="lazy">'
+              : '<svg class="ill" style="width:60%;height:60%;color:var(--gold)"><use href="#logo-lb-compact"/></svg>') +
+          "</div>" +
+          (p.brand ? '<div class="product-brand">' + esc(p.brand) + "</div>" : "") +
+          '<div class="product-name">' + esc(p.label) + "</div>" +
+          '<div class="product-desc">' + esc(p.description || "") + "</div>" +
+          (p.price != null ? '<div class="product-price">' + money(p.price) + "</div>" : "") +
+          "</div>";
+      }).join("");
+
+      // If nobody has a price set, keep the "ask at the shop" note; hide it
+      // once at least one price exists.
+      if (note) note.hidden = items.some(function (p) { return p.price != null; });
+    }
+
     // Photos and videos of the shop's work, uploaded from /admin.
     function renderGallery() {
       var sec = document.getElementById("galerie");
@@ -2295,6 +2440,7 @@
       render();
       renderTarifs();
       renderGallery();
+      renderProducts();
       // Cancellation link from the confirmation email.
       var qs = new URLSearchParams(location.search);
       var id = qs.get("annuler");

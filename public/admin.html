@@ -464,6 +464,91 @@
     });
   }
 
+  // ── Produits ─────────────────────────────────────────────────────────
+  function renderProducts() {
+    var live = (st.data.products || []).filter(function (p) { return p.active; });
+    var html = '<p class="hint">Laissez le champ prix vide pour cacher le prix sur le site — les clients demanderont au salon.</p>';
+
+    live.forEach(function (p) {
+      var img = p.image ? (/^https?:/i.test(p.image) ? p.image : (p.image.charAt(0) === "/" ? p.image : "/" + p.image)) : "";
+      html +=
+        '<div class="card" data-product="' + esc(p.id) + '">' +
+        '<div class="item-head"><span class="item-title">' + esc(p.label) + '</span>' +
+        '<span class="pill">' + esc(p.id) + '</span></div>' +
+        '<div class="row">' +
+        (img
+          ? '<div style="flex:0 0 auto"><img src="' + esc(img) + '" alt="" style="width:64px;height:80px;object-fit:contain;background:#fafafa;border-radius:6px;padding:4px"></div>'
+          : "") +
+        '<div><label>Nom</label><input class="f-label" value="' + esc(p.label) + '"></div>' +
+        '<div><label>Marque</label><input class="f-brand" value="' + esc(p.brand || "") + '"></div>' +
+        '<div><label>Prix (€)</label><input class="f-price" type="number" step="0.01" min="0" value="' + (p.price == null ? "" : p.price) + '" placeholder="—"></div>' +
+        '<div><label>Ordre</label><input class="f-sort" type="number" value="' + p.sort + '"></div>' +
+        '</div>' +
+        '<div style="margin-top:10px"><label>Description (une phrase)</label>' +
+        '<textarea class="f-desc" rows="2" maxlength="300">' + esc(p.description || "") + "</textarea></div>" +
+        '<div style="margin-top:10px"><label>Image (chemin ou URL)</label>' +
+        '<input class="f-image" value="' + esc(p.image || "") + '" placeholder="/products/xxx.jpg"></div>' +
+        '<div class="row" style="margin-top:10px">' +
+        '<button class="save">Enregistrer</button>' +
+        '<button class="ghost del" style="flex:0 0 auto">Retirer du site</button>' +
+        '</div></div>';
+    });
+
+    html +=
+      '<div class="card section-gap"><h2>Ajouter un produit</h2>' +
+      '<div class="row">' +
+      '<div><label>Identifiant</label><input id="p-id" placeholder="creme-nuit"></div>' +
+      '<div><label>Nom</label><input id="p-label" placeholder="Crème de nuit"></div>' +
+      '<div><label>Marque</label><input id="p-brand" placeholder="Revuele"></div>' +
+      '<div><label>Prix (€)</label><input id="p-price" type="number" step="0.01" min="0" placeholder="facultatif"></div>' +
+      '</div><div style="margin-top:10px"><label>Description</label>' +
+      '<textarea id="p-desc" rows="2" maxlength="300" placeholder="Un soin qui régénère la peau pendant la nuit."></textarea></div>' +
+      '<div style="margin-top:10px"><label>Image (chemin ou URL)</label>' +
+      '<input id="p-image" placeholder="/products/xxx.jpg"></div>' +
+      '<div class="row" style="margin-top:10px"><button id="p-add">Ajouter</button></div></div>';
+
+    app.innerHTML = html;
+
+    app.querySelectorAll("[data-product]").forEach(function (card) {
+      var id = card.dataset.product;
+      card.querySelector(".save").addEventListener("click", function () {
+        api("product-save", {
+          product: {
+            id: id,
+            label: card.querySelector(".f-label").value,
+            brand: card.querySelector(".f-brand").value,
+            price: card.querySelector(".f-price").value,
+            description: card.querySelector(".f-desc").value,
+            image: card.querySelector(".f-image").value,
+            sort: card.querySelector(".f-sort").value,
+          },
+        }).then(function () { say("Produit enregistré"); return load(); })
+          .catch(function (e) { say(e.message, "err"); });
+      });
+      card.querySelector(".del").addEventListener("click", function () {
+        if (!confirm("Retirer ce produit du site ?")) return;
+        api("product-delete", { id: id })
+          .then(function () { say("Produit retiré"); return load(); })
+          .catch(function (e) { say(e.message, "err"); });
+      });
+    });
+
+    document.getElementById("p-add").addEventListener("click", function () {
+      api("product-save", {
+        product: {
+          id: document.getElementById("p-id").value,
+          label: document.getElementById("p-label").value,
+          brand: document.getElementById("p-brand").value,
+          price: document.getElementById("p-price").value,
+          description: document.getElementById("p-desc").value,
+          image: document.getElementById("p-image").value,
+          sort: 50,
+        },
+      }).then(function () { say("Produit ajouté"); return load(); })
+        .catch(function (e) { say(e.message, "err"); });
+    });
+  }
+
   // ── Galerie ──────────────────────────────────────────────────────────
   function upload(file, extra) {
     var form = new FormData();
@@ -541,6 +626,7 @@
       ["services", "Prestations"],
       ["barbers", "Barbiers"],
       ["hours", "Horaires"],
+      ["products", "Produits"],
       ["gallery", "Galerie"],
     ];
 
@@ -560,6 +646,7 @@
     if (st.tab === "services") renderServices();
     else if (st.tab === "barbers") renderBarbers();
     else if (st.tab === "hours") renderHours();
+    else if (st.tab === "products") renderProducts();
     else renderGallery();
     app = host;
 
