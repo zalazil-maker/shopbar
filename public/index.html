@@ -443,10 +443,12 @@
       background: var(--dark-3);
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: var(--radius);
-      padding: 36px 32px;
+      padding: 0 0 32px;
       position: relative;
       overflow: hidden;
       transition: border-color 0.25s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
     }
 
     .service-card:hover {
@@ -477,15 +479,23 @@
       display: block;
     }
 
-    .service-icon {
-      width: 46px;
-      height: 46px;
-      margin-bottom: 20px;
-      color: var(--gold);
-      transition: transform 0.25s ease;
+    /* Real photograph at the top of every tarif card — one hero shot per
+       service so the pricing block below is instantly readable. */
+    .service-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
     }
 
-    .service-card:hover .service-icon { transform: translateY(-2px) scale(1.06); }
+    .service-card:hover .service-photo { transform: scale(1.04); }
+
+    .service-body {
+      padding: 22px 28px 0;
+      display: flex;
+      flex-direction: column;
+    }
 
     /* ── NOS COUPES ── */
     .cuts-section {
@@ -1509,53 +1519,61 @@
       <div class="services-grid" id="services-grid">
 
         <div class="service-card">
-          <svg class="service-icon ill"><use href="#ico-ciseaux"/></svg>
-          <div class="service-name">Cheveux</div>
-          <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
-          <div class="service-price">
-            <span class="price-amount">18</span>
-            <span class="price-currency">€</span>
-            <span class="price-was">20 € sur Planity</span>
+          <img class="service-photo" src="/cuts/classique.jpg" alt="Cheveux" loading="lazy">
+          <div class="service-body">
+            <div class="service-name">Cheveux</div>
+            <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
+            <div class="service-price">
+              <span class="price-amount">18</span>
+              <span class="price-currency">€</span>
+              <span class="price-was">20 € sur Planity</span>
+            </div>
+            <div class="price-save">Économisez 2 € en réservant ici</div>
+            <a href="#reserver" class="service-book" data-book-service="cheveux">Réserver →</a>
           </div>
-          <div class="price-save">Économisez 2 € en réservant ici</div>
-          <a href="#reserver" class="service-book" data-book-service="cheveux">Réserver →</a>
         </div>
 
         <div class="service-card">
-          <svg class="service-icon ill"><use href="#ico-rasoir"/></svg>
-          <div class="service-name">Barbe</div>
-          <div class="service-desc">Taille et contours de barbe à la tondeuse et au rasoir, finition serviette chaude. Net, précis, rapide.</div>
-          <div class="service-price">
-            <span class="price-amount">9,99</span>
-            <span class="price-currency">€</span>
-            <span class="price-was">12 € sur Planity</span>
+          <img class="service-photo" src="/cuts/barbe.jpg" alt="Barbe" loading="lazy">
+          <div class="service-body">
+            <div class="service-name">Barbe</div>
+            <div class="service-desc">Taille et contours de barbe à la tondeuse et au rasoir, finition serviette chaude. Net, précis, rapide.</div>
+            <div class="service-price">
+              <span class="price-amount">9,99</span>
+              <span class="price-currency">€</span>
+              <span class="price-was">12 € sur Planity</span>
+            </div>
+            <div class="price-save">Économisez 2,01 € en réservant ici</div>
+            <a href="#reserver" class="service-book" data-book-service="barbe">Réserver →</a>
           </div>
-          <div class="price-save">Économisez 2,01 € en réservant ici</div>
-          <a href="#reserver" class="service-book" data-book-service="barbe">Réserver →</a>
         </div>
 
         <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
-          <svg class="service-icon ill"><use href="#ico-poteau"/></svg>
-          <div class="service-name">Cheveux + Barbe</div>
-          <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
-          <div class="service-price">
-            <span class="price-amount">23,99</span>
-            <span class="price-currency">€</span>
-            <span class="price-was">26 € sur Planity</span>
+          <img class="service-photo" src="/cuts/taper.jpg" alt="Cheveux + Barbe" loading="lazy">
+          <div class="service-body">
+            <div class="service-name">Cheveux + Barbe</div>
+            <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
+            <div class="service-price">
+              <span class="price-amount">23,99</span>
+              <span class="price-currency">€</span>
+              <span class="price-was">26 € sur Planity</span>
+            </div>
+            <div class="price-save">Économisez 2,01 € en réservant ici</div>
+            <a href="#reserver" class="service-book" data-book-service="both">Réserver →</a>
           </div>
-          <div class="price-save">Économisez 2,01 € en réservant ici</div>
-          <a href="#reserver" class="service-book" data-book-service="both">Réserver →</a>
         </div>
 
-        <div class="service-card">
-          <svg class="service-icon ill"><use href="#ico-enfant"/></svg>
-          <div class="service-name">Enfant</div>
-          <div class="service-desc">Coupe pour les petits dans une ambiance détendue. Pour que vos enfants repartent contents et bien coiffés.</div>
-          <div class="service-price">
-            <span class="price-amount">12</span>
-            <span class="price-currency">€</span>
+        <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
+          <img class="service-photo" src="/tarifs/traitement.jpg" alt="Le traitement complet" loading="lazy">
+          <div class="service-body">
+            <div class="service-name">Le traitement complet !</div>
+            <div class="service-desc">Coupe, barbe, shampooing et soins visage — pensé pour les grandes occasions : mariage, remise de diplôme, vacances, ou simplement pour prendre soin de vous.</div>
+            <div class="service-price">
+              <span class="price-amount">32,99</span>
+              <span class="price-currency">€</span>
+            </div>
+            <a href="#reserver" class="service-book" data-book-service="traitement_complet">Réserver →</a>
           </div>
-          <a href="#reserver" class="service-book" data-book-service="enfant">Réserver →</a>
         </div>
 
       </div>
@@ -1833,17 +1851,25 @@
     var FALLBACK = {
       barbers: ["Momo", "Amine"],
       services: {
-        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30 },
-        barbe: { label: "Barbe", price: 9.99, planity: 12.0, duration: 30 },
-        both: { label: "Cheveux + Barbe", price: 23.99, planity: 26.0, duration: 30 },
-        enfant: { label: "Enfant", price: 12.0, duration: 30 }
+        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/cuts/classique.jpg" },
+        barbe: { label: "Barbe", price: 9.99, planity: 12.0, duration: 30, image: "/cuts/barbe.jpg" },
+        both: { label: "Cheveux + Barbe", price: 23.99, planity: 26.0, duration: 30, image: "/cuts/taper.jpg" },
+        traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg" }
       },
       slotMinutes: 30,
       maxDaysAhead: 60,
       today: null
     };
 
-    var ICONS = { cheveux: "ico-ciseaux", barbe: "ico-rasoir", both: "ico-poteau", enfant: "ico-enfant" };
+    // Fallback photos for tarif cards and the booking-flow chooser when a
+    // service row from the API doesn't carry its own `image`.
+    var IMAGES = {
+      cheveux: "/cuts/classique.jpg",
+      barbe: "/cuts/barbe.jpg",
+      both: "/cuts/taper.jpg",
+      traitement_complet: "/tarifs/traitement.jpg",
+    };
+    var ICONS = { cheveux: "ico-ciseaux", barbe: "ico-rasoir", both: "ico-poteau", traitement_complet: "ico-poteau" };
     var DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
     var MONTHS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
 
@@ -2259,17 +2285,20 @@
       grid.innerHTML = keys.map(function (key) {
         var s = st.config.services[key];
         var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
+        var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
         return '<div class="service-card">' +
-          '<svg class="service-icon ill"><use href="#' + esc(s.icon || "ico-ciseaux") + '"/></svg>' +
-          '<div class="service-name">' + esc(s.label) + "</div>" +
-          '<div class="service-desc">' + esc(s.desc || "") + "</div>" +
-          '<div class="service-price"><span class="price-amount">' + money(s.price).replace(" €", "") + "</span>" +
-          '<span class="price-currency">€</span>' +
-          (s.planity ? '<span class="price-was">' + money(s.planity) + " sur Planity</span>" : "") +
+          '<img class="service-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '" loading="lazy">' +
+          '<div class="service-body">' +
+            '<div class="service-name">' + esc(s.label) + "</div>" +
+            '<div class="service-desc">' + esc(s.desc || "") + "</div>" +
+            '<div class="service-price"><span class="price-amount">' + money(s.price).replace(" €", "") + "</span>" +
+            '<span class="price-currency">€</span>' +
+            (s.planity ? '<span class="price-was">' + money(s.planity) + " sur Planity</span>" : "") +
+            "</div>" +
+            (save > 0 ? '<div class="price-save">Économisez ' + money(save) + " en réservant ici</div>" : "") +
+            '<a href="#reserver" class="service-book" data-book-service="' + esc(key) + '">Réserver →</a>' +
           "</div>" +
-          (save > 0 ? '<div class="price-save">Économisez ' + money(save) + " en réservant ici</div>" : "") +
-          '<a href="#reserver" class="service-book" data-book-service="' + esc(key) + '">Réserver →</a>' +
-          "</div>";
+        "</div>";
       }).join("");
 
       grid.querySelectorAll("[data-book-service]").forEach(function (el) {
