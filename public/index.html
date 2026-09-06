@@ -210,6 +210,62 @@
         linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
     }
 
+    /* Two full-height photos flank the hero content. Each is faded toward
+       the middle with a mask so the center stays dark enough for the
+       Playfair title to read as the focal point. Hidden on tablets and
+       phones — the split layout collapses to keep the copy prominent. */
+    .hero-photo {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 32%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-photo-left {
+      left: 0;
+      -webkit-mask-image: linear-gradient(to right, #000 45%, transparent 100%);
+      mask-image: linear-gradient(to right, #000 45%, transparent 100%);
+    }
+    .hero-photo-right {
+      right: 0;
+      -webkit-mask-image: linear-gradient(to left, #000 45%, transparent 100%);
+      mask-image: linear-gradient(to left, #000 45%, transparent 100%);
+    }
+
+    /* Extra dark veils behind the copy so the badge, headline and buttons
+       stay legible even where the photos fade in. */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 55% 60% at 50% 50%, rgba(11,11,11,0.6) 0%, transparent 75%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Text-shadow keeps the Playfair title readable across the darker
+       middle band even where the photo edges bleed in. */
+    .hero-content .hero-badge,
+    .hero-content h1,
+    .hero-content .hero-sub {
+      text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 900px) {
+      .hero-photo { display: none; }
+      .hero::after { background: none; }
+    }
+
     .hero-badge {
       position: relative;
       display: inline-flex;
@@ -1513,14 +1569,18 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">Barbier à Amiens</div>
-    <h1>Luxury<br><span>Barber</span></h1>
-    <p class="hero-sub">Expertise. Précision. Style.</p>
-    <div class="hero-actions">
-      <a href="#reserver" class="btn-primary">
-        📅 Prendre rendez-vous
-      </a>
-      <a href="#reserver" class="btn-outline">Voir les tarifs</a>
+    <img class="hero-photo hero-photo-left" src="/hero/hero-left.jpg" alt="Coupe homme à Luxury Barber" loading="eager">
+    <img class="hero-photo hero-photo-right" src="/hero/hero-right.jpg" alt="Soin visage à Luxury Barber" loading="eager">
+    <div class="hero-content">
+      <div class="hero-badge">Barbier à Amiens</div>
+      <h1>Luxury<br><span>Barber</span></h1>
+      <p class="hero-sub">Expertise. Précision. Style.</p>
+      <div class="hero-actions">
+        <a href="#reserver" class="btn-primary">
+          📅 Prendre rendez-vous
+        </a>
+        <a href="#reserver" class="btn-outline">Voir les tarifs</a>
+      </div>
     </div>
     <div class="hero-scroll">Découvrir</div>
   </section>
