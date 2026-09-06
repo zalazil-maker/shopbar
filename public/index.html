@@ -1078,7 +1078,7 @@
       background: var(--dark-4);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
-      padding: 18px;
+      padding: 0;
       cursor: pointer;
       text-align: left;
       color: var(--text);
@@ -1087,13 +1087,24 @@
       transition: border-color 0.2s, background 0.2s, transform 0.15s;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      overflow: hidden;
     }
 
     .opt:hover { border-color: rgba(201,162,39,0.5); transform: translateY(-2px); }
     .opt.selected { border-color: var(--gold); background: rgba(201,162,39,0.1); }
 
-    .opt-ico { width: 30px; height: 30px; color: var(--gold); margin-bottom: 2px; }
+    /* Small hero photo on each prestation button — same image the tarif card
+       uses, just cropped tighter for the compact chooser. */
+    .opt-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+    .opt-photo[src="/cuts/barbe.jpg"] { object-position: 50% 22%; }
+
+    .opt-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
+
     .opt-name { font-weight: 600; }
     .opt-meta { font-size: 0.82rem; color: var(--text-muted); }
     .opt-price { color: var(--gold); font-weight: 600; font-size: 1.05rem; }
@@ -1984,13 +1995,16 @@
         '<div class="step-hint">Tarifs réservés aux rendez-vous pris sur ce site.</div><div class="opt-grid">';
       Object.keys(st.config.services).forEach(function (key) {
         var s = st.config.services[key];
+        var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
         out += '<button class="opt ' + (st.service === key ? "selected" : "") + '" data-service="' + esc(key) + '">' +
-          '<svg class="opt-ico ill"><use href="#' + (ICONS[key] || "ico-ciseaux") + '"/></svg>' +
-          '<span class="opt-name">' + esc(s.label) + "</span>" +
-          '<span class="opt-price">' + money(s.price) +
-          (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
+          '<img class="opt-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '" loading="lazy">' +
+          '<span class="opt-body">' +
+            '<span class="opt-name">' + esc(s.label) + "</span>" +
+            '<span class="opt-price">' + money(s.price) +
+            (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
+            "</span>" +
+            (s.planity ? '<span class="opt-meta">− ' + money(s.planity - s.price) + " vs Planity</span>" : "") +
           "</span>" +
-          (s.planity ? '<span class="opt-meta">− ' + money(s.planity - s.price) + " vs Planity</span>" : "") +
           "</button>";
       });
       return out + "</div>";
