@@ -1013,7 +1013,7 @@
       border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    .booking-inner { max-width: 780px; margin: 0 auto; }
+    .booking-inner { max-width: 1100px; margin: 0 auto; }
 
     .booking-header { text-align: center; margin-bottom: 40px; }
 
@@ -1074,6 +1074,19 @@
       gap: 12px;
     }
 
+    /* Prestation chooser is the widest of the four steps — give the four
+       photo cards their own denser grid so they hold one row on desktop. */
+    .opt-grid-services {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 900px) {
+      .opt-grid-services { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .opt-grid-services { grid-template-columns: 1fr; }
+    }
+
     .opt {
       background: var(--dark-4);
       border: 1px solid rgba(255,255,255,0.08);
@@ -1093,8 +1106,39 @@
     .opt:hover { border-color: rgba(201,162,39,0.5); transform: translateY(-2px); }
     .opt.selected { border-color: var(--gold); background: rgba(201,162,39,0.1); }
 
+    /* The premium service gets a golden halo so it reads as the highlighted
+       upsell — same shape as the other cards, just outlined and glowing. */
+    .opt.opt-featured {
+      border-color: rgba(201,162,39,0.55);
+      box-shadow: 0 0 0 1px rgba(201,162,39,0.35), 0 12px 40px -12px rgba(201,162,39,0.55);
+    }
+    .opt.opt-featured:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(201,162,39,0.55), 0 16px 46px -12px rgba(201,162,39,0.7);
+    }
+    .opt.opt-featured.selected {
+      background: rgba(201,162,39,0.14);
+    }
+    .opt-featured-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--gold);
+      color: #1a1105;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      z-index: 1;
+    }
+
     /* Small hero photo on each prestation button — same image the tarif card
        uses, just cropped tighter for the compact chooser. */
+    .opt {
+      position: relative;
+    }
     .opt-photo {
       width: 100%;
       aspect-ratio: 4/3;
@@ -1103,11 +1147,25 @@
     }
     .opt-photo[src="/cuts/barbe.jpg"] { object-position: 50% 22%; }
 
-    .opt-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .opt-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
 
-    .opt-name { font-weight: 600; }
-    .opt-meta { font-size: 0.82rem; color: var(--text-muted); }
-    .opt-price { color: var(--gold); font-weight: 600; font-size: 1.05rem; }
+    .opt-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.05rem; }
+    .opt-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 4px; }
+    .opt-meta { font-size: 0.78rem; color: var(--text-muted); }
+    .opt-price { color: var(--gold); font-weight: 700; font-size: 1.15rem; font-family: 'Playfair Display', serif; }
+    .opt-save {
+      display: inline-block;
+      align-self: flex-start;
+      margin-top: 6px;
+      background: rgba(201,162,39,0.12);
+      border: 1px solid rgba(201,162,39,0.3);
+      color: var(--gold);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
 
     .barber-avatar {
       width: 44px;
@@ -1427,7 +1485,7 @@
       <svg class="nav-logo-mark" viewBox="0 0 200 165" role="img" aria-hidden="true"><use href="#logo-lb-compact"/></svg>
     </a>
     <ul class="nav-links">
-      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#reserver">Tarifs</a></li>
       <li><a href="#coupes">Coupes</a></li>
       <li><a href="#produits">Produits</a></li>
       <li><a href="#avis">Avis</a></li>
@@ -1444,7 +1502,7 @@
   <!-- Narrow screens only: the desktop links are hidden below 768px, so they
        live here behind the menu button instead of disappearing entirely. -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#tarifs">Tarifs</a>
+    <a href="#reserver">Tarifs</a>
     <a href="#coupes">Coupes</a>
     <a href="#produits">Produits</a>
     <a href="#galerie">Réalisations</a>
@@ -1462,7 +1520,7 @@
       <a href="#reserver" class="btn-primary">
         📅 Prendre rendez-vous
       </a>
-      <a href="#tarifs" class="btn-outline">Voir les tarifs</a>
+      <a href="#reserver" class="btn-outline">Voir les tarifs</a>
     </div>
     <div class="hero-scroll">Découvrir</div>
   </section>
@@ -1471,9 +1529,10 @@
   <section id="reserver" class="booking-section">
     <div class="booking-inner">
       <div class="booking-header">
-        <span class="section-label">Prêt ?</span>
-        <h2 class="section-title">Réservez votre séance</h2>
+        <span class="section-label">Nos prestations</span>
+        <h2 class="section-title">Tarifs simples,<br>résultats impeccables</h2>
         <p class="section-subtitle" style="margin: 0 auto;">Choisissez votre prestation, votre barbier et votre créneau. Confirmation immédiate.</p>
+        <p class="tarifs-note">Ces tarifs sont réservés aux rendez-vous pris <strong>directement sur ce site</strong>. Sur Planity ou sans rendez-vous, le tarif normal s'applique.</p>
       </div>
 
       <div class="booking-card" id="booking-card">
@@ -1522,79 +1581,6 @@
       </div>
     </div>
   </div>
-
-  <!-- TARIFS -->
-  <section id="tarifs">
-    <div class="services-section" style="padding: 0;">
-      <div class="services-header">
-        <span class="section-label">Nos prestations</span>
-        <h2 class="section-title">Tarifs simples,<br>résultats impeccables</h2>
-        <p class="section-subtitle" style="margin: 0 auto;">Des prix transparents pour chaque prestation, sans mauvaise surprise.</p>
-        <p class="tarifs-note">Ces tarifs sont réservés aux rendez-vous pris <strong>directement sur ce site</strong>. Sur Planity ou sans rendez-vous, le tarif normal s'applique.</p>
-      </div>
-      <div class="services-grid" id="services-grid">
-
-        <div class="service-card">
-          <img class="service-photo" src="/cuts/classique.jpg" alt="Cheveux" loading="lazy">
-          <div class="service-body">
-            <div class="service-name">Cheveux</div>
-            <div class="service-desc">Coupe homme soignée, adaptée à votre style. Dégradé, classique ou moderne — le résultat est toujours net.</div>
-            <div class="service-price">
-              <span class="price-amount">18</span>
-              <span class="price-currency">€</span>
-              <span class="price-was">20 € sur Planity</span>
-            </div>
-            <div class="price-save">Économisez 2 € en réservant ici</div>
-            <a href="#reserver" class="service-book" data-book-service="cheveux">Réserver →</a>
-          </div>
-        </div>
-
-        <div class="service-card">
-          <img class="service-photo" src="/cuts/barbe.jpg" alt="Barbe" loading="lazy">
-          <div class="service-body">
-            <div class="service-name">Barbe</div>
-            <div class="service-desc">Taille et contours de barbe à la tondeuse et au rasoir, finition serviette chaude. Net, précis, rapide.</div>
-            <div class="service-price">
-              <span class="price-amount">9,99</span>
-              <span class="price-currency">€</span>
-              <span class="price-was">12 € sur Planity</span>
-            </div>
-            <div class="price-save">Économisez 2,01 € en réservant ici</div>
-            <a href="#reserver" class="service-book" data-book-service="barbe">Réserver →</a>
-          </div>
-        </div>
-
-        <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
-          <img class="service-photo" src="/cuts/taper.jpg" alt="Cheveux + Barbe" loading="lazy">
-          <div class="service-body">
-            <div class="service-name">Cheveux + Barbe</div>
-            <div class="service-desc">Le combo complet — coupe homme et taille de barbe soignée pour un look parfaitement abouti de la tête aux pieds.</div>
-            <div class="service-price">
-              <span class="price-amount">23,99</span>
-              <span class="price-currency">€</span>
-              <span class="price-was">26 € sur Planity</span>
-            </div>
-            <div class="price-save">Économisez 2,01 € en réservant ici</div>
-            <a href="#reserver" class="service-book" data-book-service="both">Réserver →</a>
-          </div>
-        </div>
-
-        <div class="service-card" style="border-color: rgba(201,162,39,0.3);">
-          <img class="service-photo" src="/tarifs/traitement.jpg" alt="Le traitement complet" loading="lazy">
-          <div class="service-body">
-            <div class="service-name">Le traitement complet !</div>
-            <div class="service-desc">Coupe, barbe, shampooing et soins visage — pensé pour les grandes occasions : mariage, remise de diplôme, vacances, ou simplement pour prendre soin de vous.</div>
-            <div class="service-price">
-              <span class="price-amount">32,99</span>
-              <span class="price-currency">€</span>
-            </div>
-            <a href="#reserver" class="service-book" data-book-service="traitement_complet">Réserver →</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- NOS COUPES -->
   <section id="coupes" class="cuts-section">
@@ -1990,20 +1976,40 @@
       return rows + "</div>";
     }
 
+    // Fixed display order — Le traitement complet sits between Barbe and
+    // Cheveux + Barbe so the premium upsell reads as the middle option on
+    // a 4-column row. Any service the API returns that isn't in this list
+    // falls to the end in its natural order.
+    var SERVICE_ORDER = ["cheveux", "barbe", "traitement_complet", "both"];
+    var FEATURED = { traitement_complet: true };
+
+    function orderedServiceKeys() {
+      var keys = Object.keys(st.config.services);
+      return keys.slice().sort(function (a, b) {
+        var ai = SERVICE_ORDER.indexOf(a); if (ai < 0) ai = 999;
+        var bi = SERVICE_ORDER.indexOf(b); if (bi < 0) bi = 999;
+        return ai - bi;
+      });
+    }
+
     function renderServices() {
       var out = '<div class="step-title">Quelle prestation ?</div>' +
-        '<div class="step-hint">Tarifs réservés aux rendez-vous pris sur ce site.</div><div class="opt-grid">';
-      Object.keys(st.config.services).forEach(function (key) {
+        '<div class="step-hint">Tarifs réservés aux rendez-vous pris sur ce site.</div><div class="opt-grid opt-grid-services">';
+      orderedServiceKeys().forEach(function (key) {
         var s = st.config.services[key];
         var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
-        out += '<button class="opt ' + (st.service === key ? "selected" : "") + '" data-service="' + esc(key) + '">' +
+        var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
+        var classes = "opt" + (st.service === key ? " selected" : "") + (FEATURED[key] ? " opt-featured" : "");
+        out += '<button class="' + classes + '" data-service="' + esc(key) + '">' +
+          (FEATURED[key] ? '<span class="opt-featured-badge">Premium</span>' : "") +
           '<img class="opt-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '" loading="lazy">' +
           '<span class="opt-body">' +
             '<span class="opt-name">' + esc(s.label) + "</span>" +
+            (s.desc ? '<span class="opt-desc">' + esc(s.desc) + "</span>" : "") +
             '<span class="opt-price">' + money(s.price) +
             (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
             "</span>" +
-            (s.planity ? '<span class="opt-meta">− ' + money(s.planity - s.price) + " vs Planity</span>" : "") +
+            (save > 0 ? '<span class="opt-save">Économisez ' + money(save) + " en réservant ici</span>" : "") +
           "</span>" +
           "</button>";
       });
@@ -2292,44 +2298,6 @@
       }
     });
 
-    // The tarif cards ship as static HTML so they are in the page for search
-    // engines, then get rebuilt from /api/config so an edit in /admin shows up
-    // straight away — including services added after this page was written.
-    function renderTarifs() {
-      var grid = document.getElementById("services-grid");
-      if (!grid || !st.config.services) return;
-      var keys = Object.keys(st.config.services);
-      if (!keys.length) return;
-
-      grid.innerHTML = keys.map(function (key) {
-        var s = st.config.services[key];
-        var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
-        var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
-        return '<div class="service-card">' +
-          '<img class="service-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '" loading="lazy">' +
-          '<div class="service-body">' +
-            '<div class="service-name">' + esc(s.label) + "</div>" +
-            '<div class="service-desc">' + esc(s.desc || "") + "</div>" +
-            '<div class="service-price"><span class="price-amount">' + money(s.price).replace(" €", "") + "</span>" +
-            '<span class="price-currency">€</span>' +
-            (s.planity ? '<span class="price-was">' + money(s.planity) + " sur Planity</span>" : "") +
-            "</div>" +
-            (save > 0 ? '<div class="price-save">Économisez ' + money(save) + " en réservant ici</div>" : "") +
-            '<a href="#reserver" class="service-book" data-book-service="' + esc(key) + '">Réserver →</a>' +
-          "</div>" +
-        "</div>";
-      }).join("");
-
-      grid.querySelectorAll("[data-book-service]").forEach(function (el) {
-        el.addEventListener("click", function () {
-          st.service = el.dataset.bookService;
-          st.step = 2;
-          st.error = "";
-          render();
-        });
-      });
-    }
-
     // Product catalogue — cards rebuilt from /api/config so admin edits show
     // up immediately. A product photo missing (e.g. broken URL) falls back to
     // the shop's logo tile so the layout stays consistent.
@@ -2409,7 +2377,6 @@
     render();
     loadConfig().then(function () {
       render();
-      renderTarifs();
       renderGallery();
       renderProducts();
       // Cancellation link from the confirmation email.
@@ -2432,7 +2399,7 @@
       <span>Luxury Barber</span>
     </div>
     <ul class="footer-links">
-      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#reserver">Tarifs</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="#reserver">Réserver</a></li>
       <li><a href="https://www.planity.com/luxury-barber-80000-amiens" target="_blank" rel="noopener">Planity</a></li>
