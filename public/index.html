@@ -489,6 +489,11 @@
       transition: transform 0.45s ease;
     }
 
+    /* The barbe portrait has a lot of shirt below the beard; a centered
+       crop hides most of it. Shift the focal point up so the beard sits
+       in the middle of the frame. */
+    .service-photo[src="/cuts/barbe.jpg"] { object-position: 50% 22%; }
+
     .service-card:hover .service-photo { transform: scale(1.04); }
 
     .service-body {
