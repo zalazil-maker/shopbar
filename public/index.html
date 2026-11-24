@@ -2588,6 +2588,7 @@
 
       if (t.dataset.service) {
         st.service = t.dataset.service; st.error = ""; st.step = 2;
+        setOfferUrl(st.service, true);
         render();
         return scrollToEl(card);
       }
@@ -2610,6 +2611,7 @@
       var a = t.dataset.action;
       if (a === "back") {
         st.error = ""; st.step = Math.max(1, st.step - 1);
+        if (st.step === 1) setOfferUrl(null, false);
         render();
         return scrollToEl(card);
       }
@@ -2620,6 +2622,7 @@
           result: null, cancelled: false, error: "", avail: null,
           name: "", phone: "", email: "", note: ""
         });
+        setOfferUrl(null, false);
         return render();
       }
       if (a === "cancel-mine" && st.result) {
@@ -2698,8 +2701,37 @@
         st.service = el.dataset.bookService;
         st.step = 2;
         st.error = "";
+        setOfferUrl(st.service, true);
         render();
       });
+    });
+
+    // Keeps the address bar on the offer being viewed (…/?offre=noel), so
+    // the link a client sees — or the owner copies for a QR code — opens
+    // that same offer.
+    function setOfferUrl(key, push) {
+      try {
+        var u = new URL(location.href);
+        if (key) u.searchParams.set("offre", key); else u.searchParams.delete("offre");
+        var next = u.pathname + u.search;
+        if (next === location.pathname + location.search && !location.hash) return;
+        history[push ? "pushState" : "replaceState"]({ offre: key || null }, "", next);
+      } catch (e) {}
+    }
+
+    // Phone/browser back and forward buttons move between the offer list
+    // and an offer page.
+    window.addEventListener("popstate", function () {
+      if (st.result || st.cancelled) return;
+      var key = (new URLSearchParams(location.search).get("offre") || "").toLowerCase();
+      if (key && st.config.services[key]) {
+        if (st.service !== key || st.step === 1) { st.service = key; st.step = 2; }
+      } else {
+        st.step = 1;
+      }
+      st.error = "";
+      render();
+      scrollToEl(card);
     });
 
     // ── Boot ─────────────────────────────────────────────────────────────
@@ -2714,6 +2746,7 @@
       if (offre && st.config.services[offre]) {
         st.service = offre;
         st.step = 2;
+        setOfferUrl(offre, false);
         render();
         scrollToEl(card);
       }
