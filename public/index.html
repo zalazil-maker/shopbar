@@ -1257,7 +1257,7 @@
     .offer-detail .opt-save { align-self: flex-start; }
 
     .offer-detail.is-noel {
-      background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+      background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%);
       border-color: rgba(220,38,38,0.85);
       animation: noel-pulse 2.4s ease-in-out infinite;
     }
@@ -1325,7 +1325,7 @@
        run green. Pairs with the opt-noel-badge pill up top. Shares the
        shape of .opt-featured so the two can sit side by side. */
     .opt.opt-noel {
-      background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+      background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%);
       border-color: rgba(220,38,38,0.85);
       box-shadow: 0 0 0 1px rgba(34,197,94,0.55),
                   0 14px 44px -10px rgba(34,197,94,0.65);
@@ -1337,7 +1337,7 @@
                   0 18px 52px -8px rgba(34,197,94,0.95);
     }
     .opt.opt-noel.selected {
-      background: linear-gradient(180deg, #b91c1c 0%, #991b1b 100%);
+      background: linear-gradient(180deg, #e53935 0%, #c62828 100%);
     }
     /* Type on the Noël card: bright festive green with a soft glow so it
        reads over the deep red whichever device is rendering it. */
@@ -2107,7 +2107,7 @@
     var FALLBACK = {
       barbers: ["Momo", "Amine"],
       services: {
-        noel: { label: "Offre NOËL", price: 21.99, planity: null, duration: 60, image: "/cuts/taper.jpg",
+        noel: { label: "Offre NOËL", price: 21.99, planity: null, duration: 60, image: "/tarifs/noel.jpg",
           desc: "Coupe + Barbe + Soin Visage — l'offre de fin d'année de Luxury Barber." },
         cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/cuts/classique.jpg" },
         traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg",
@@ -2121,7 +2121,7 @@
     // Fallback photos for tarif cards and the booking-flow chooser when a
     // service row from the API doesn't carry its own `image`.
     var IMAGES = {
-      noel: "/cuts/taper.jpg",
+      noel: "/tarifs/noel.jpg",
       cheveux: "/cuts/classique.jpg",
       traitement_complet: "/tarifs/traitement.jpg",
     };
