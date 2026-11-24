@@ -1130,10 +1130,11 @@
       gap: 12px;
     }
 
-    /* Prestation chooser is the widest of the four steps — give the four
-       photo cards their own denser grid so they hold one row on desktop. */
+    /* Prestation chooser is the widest of the four steps — auto-fit so
+       the cards grow to fill the row whether the shop is offering two
+       bundles (Noël + Premium) or the full standalone menu. */
     .opt-grid-services {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 18px;
     }
     @media (max-width: 900px) {
@@ -1188,6 +1189,67 @@
       padding: 4px 10px;
       border-radius: 100px;
       z-index: 1;
+    }
+
+    /* Christmas-promo card — the card runs red, the type and the halo
+       run green. Pairs with the opt-noel-badge pill up top. Shares the
+       shape of .opt-featured so the two can sit side by side. */
+    .opt.opt-noel {
+      background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+      border-color: rgba(220,38,38,0.85);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.55),
+                  0 14px 44px -10px rgba(34,197,94,0.65);
+      animation: noel-pulse 2.4s ease-in-out infinite;
+    }
+    .opt.opt-noel:hover {
+      border-color: rgb(239,68,68);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.85),
+                  0 18px 52px -8px rgba(34,197,94,0.95);
+    }
+    .opt.opt-noel.selected {
+      background: linear-gradient(180deg, #b91c1c 0%, #991b1b 100%);
+    }
+    /* Type on the Noël card: bright festive green with a soft glow so it
+       reads over the deep red whichever device is rendering it. */
+    .opt.opt-noel .opt-name,
+    .opt.opt-noel .opt-price,
+    .opt.opt-noel .opt-desc,
+    .opt.opt-noel .opt-save {
+      color: #86efac;
+      text-shadow: 0 0 10px rgba(34,197,94,0.75),
+                   0 0 24px rgba(34,197,94,0.35);
+    }
+    .opt.opt-noel .opt-save {
+      background: rgba(34,197,94,0.14);
+      border-color: rgba(34,197,94,0.45);
+    }
+    .opt-noel-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #16a34a;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      box-shadow: 0 0 14px rgba(34,197,94,0.9),
+                  0 0 2px rgba(255,255,255,0.5) inset;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    @keyframes noel-pulse {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(34,197,94,0.55),
+                             0 14px 44px -10px rgba(34,197,94,0.65); }
+      50%      { box-shadow: 0 0 0 1px rgba(34,197,94,0.85),
+                             0 18px 56px -8px  rgba(34,197,94,0.95); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .opt.opt-noel { animation: none; }
     }
 
     /* Small hero photo on each prestation button — same image the tarif card
@@ -1913,10 +1975,11 @@
     var FALLBACK = {
       barbers: ["Momo", "Amine"],
       services: {
+        noel: { label: "Offre NOËL", price: 21.99, planity: null, duration: 60, image: "/cuts/taper.jpg",
+          desc: "Coupe + Barbe + Soin Visage — l'offre de fin d'année de Luxury Barber." },
         cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/cuts/classique.jpg" },
-        barbe: { label: "Barbe", price: 9.99, planity: 12.0, duration: 30, image: "/cuts/barbe.jpg" },
-        both: { label: "Cheveux + Barbe", price: 23.99, planity: 26.0, duration: 30, image: "/cuts/taper.jpg" },
-        traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg" }
+        traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg",
+          desc: "Coupe, barbe, shampooing, massage du visage et soin profond de la peau — pour les grandes occasions ou simplement pour prendre soin de vous. Vous repartirez plus beau, plus détendu et plus confiant." }
       },
       slotMinutes: 30,
       maxDaysAhead: 60,
@@ -1926,12 +1989,11 @@
     // Fallback photos for tarif cards and the booking-flow chooser when a
     // service row from the API doesn't carry its own `image`.
     var IMAGES = {
+      noel: "/cuts/taper.jpg",
       cheveux: "/cuts/classique.jpg",
-      barbe: "/cuts/barbe.jpg",
-      both: "/cuts/taper.jpg",
       traitement_complet: "/tarifs/traitement.jpg",
     };
-    var ICONS = { cheveux: "ico-ciseaux", barbe: "ico-rasoir", both: "ico-poteau", traitement_complet: "ico-poteau" };
+    var ICONS = { noel: "ico-poteau", cheveux: "ico-ciseaux", traitement_complet: "ico-poteau" };
     var DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
     var MONTHS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
 
@@ -2036,12 +2098,12 @@
       return rows + "</div>";
     }
 
-    // Fixed display order — Le traitement complet sits between Barbe and
-    // Cheveux + Barbe so the premium upsell reads as the middle option on
-    // a 4-column row. Any service the API returns that isn't in this list
-    // falls to the end in its natural order.
-    var SERVICE_ORDER = ["cheveux", "barbe", "traitement_complet", "both"];
+    // Fixed display order — the Noël promo is pinned first, then the
+    // everyday haircut, then the premium treatment. Any service the API
+    // returns that isn't in this list falls to the end in its natural order.
+    var SERVICE_ORDER = ["noel", "cheveux", "traitement_complet"];
     var FEATURED = { traitement_complet: true };
+    var NOEL = { noel: true };
 
     function orderedServiceKeys() {
       var keys = Object.keys(st.config.services);
@@ -2059,8 +2121,11 @@
         var s = st.config.services[key];
         var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
         var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
-        var classes = "opt" + (st.service === key ? " selected" : "") + (FEATURED[key] ? " opt-featured" : "");
+        var classes = "opt" + (st.service === key ? " selected" : "") +
+          (FEATURED[key] ? " opt-featured" : "") +
+          (NOEL[key] ? " opt-noel" : "");
         out += '<button class="' + classes + '" data-service="' + esc(key) + '">' +
+          (NOEL[key] ? '<span class="opt-noel-badge">🎄 Offre Noël</span>' : "") +
           (FEATURED[key] ? '<span class="opt-featured-badge">Premium</span>' : "") +
           '<img class="opt-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '" loading="lazy">' +
           '<span class="opt-body">' +
