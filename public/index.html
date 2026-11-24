@@ -1183,6 +1183,116 @@
                    0 0 24px rgba(212,175,55,0.3);
     }
     .opt.opt-featured .opt-price { color: #e6c35c; }
+    /* Offer page — opens when a client taps an offer (or lands from a QR
+       code). The offer sits on top, barber and time pickers right under. */
+    .opt-more {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--gold);
+    }
+    .offer-change {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0 0 16px;
+      color: var(--gold);
+      font: inherit;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .offer-change:hover { text-decoration: underline; }
+    .offer-detail {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      background: var(--dark-4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .offer-media { position: relative; min-height: 280px; }
+    .offer-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .offer-body { padding: 26px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .offer-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .offer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.15;
+    }
+    .offer-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .offer-price s {
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+    .offer-meta { font-size: 0.85rem; color: var(--text-muted); }
+    .offer-desc { font-size: 0.95rem; line-height: 1.6; margin: 2px 0; }
+    .offer-includes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 7px; }
+    .offer-includes li { display: flex; gap: 10px; font-size: 0.93rem; }
+    .offer-includes li::before { content: "✓"; color: var(--gold); font-weight: 700; }
+    .offer-detail .opt-save { align-self: flex-start; }
+
+    .offer-detail.is-noel {
+      background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+      border-color: rgba(220,38,38,0.85);
+      animation: noel-pulse 2.4s ease-in-out infinite;
+    }
+    .offer-detail.is-noel .offer-kicker,
+    .offer-detail.is-noel .offer-name,
+    .offer-detail.is-noel .offer-price,
+    .offer-detail.is-noel .offer-meta,
+    .offer-detail.is-noel .offer-desc,
+    .offer-detail.is-noel .offer-includes li,
+    .offer-detail.is-noel .offer-includes li::before,
+    .opt.opt-noel .opt-more {
+      color: #86efac;
+      text-shadow: 0 0 10px rgba(34,197,94,0.75), 0 0 24px rgba(34,197,94,0.35);
+    }
+    .offer-detail.is-premium {
+      border-color: rgba(212,175,55,0.85);
+      animation: premium-pulse 2.4s ease-in-out infinite;
+    }
+    .offer-detail.is-premium .offer-name,
+    .offer-detail.is-premium .offer-price {
+      text-shadow: 0 0 10px rgba(212,175,55,0.6), 0 0 24px rgba(212,175,55,0.3);
+    }
+    .offer-detail.is-premium .offer-price { color: #e6c35c; }
+
+    .bk-when { margin-top: 30px; scroll-margin-top: 100px; }
+
+    @media (max-width: 700px) {
+      .offer-detail { grid-template-columns: 1fr; }
+      .offer-media { min-height: 0; aspect-ratio: 4/3; }
+      .offer-body { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .offer-detail.is-noel, .offer-detail.is-premium { animation: none; }
+    }
+
     @keyframes premium-pulse {
       0%, 100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.55),
                              0 14px 44px -10px rgba(212,175,55,0.65); }
@@ -1304,6 +1414,8 @@
       font-weight: 600;
       letter-spacing: 0.03em;
     }
+
+    .opt.opt-barber { padding: 16px 18px; gap: 6px; }
 
     .barber-avatar {
       width: 44px;
@@ -2078,9 +2190,16 @@
       return st.service ? st.config.services[st.service] : null;
     }
 
+    // Scrolls so `el` sits just under the fixed nav bar.
+    function scrollToEl(el) {
+      if (!el) return;
+      var y = el.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+
     // ── Rendering ────────────────────────────────────────────────────────
     function stepper() {
-      var labels = ["Prestation", "Barbier", "Créneau", "Coordonnées"];
+      var labels = ["Prestation", "Barbier & créneau", "Coordonnées"];
       var out = '<div class="steps">';
       for (var i = 0; i < labels.length; i++) {
         var n = i + 1;
@@ -2155,10 +2274,70 @@
             (s.planity ? ' <span style="text-decoration:line-through;color:var(--text-muted);font-weight:400;font-size:0.8rem">' + money(s.planity) + "</span>" : "") +
             "</span>" +
             (save > 0 ? '<span class="opt-save">Économisez ' + money(save) + " en réservant ici</span>" : "") +
+            '<span class="opt-more">Voir l\'offre →</span>' +
           "</span>" +
           "</button>";
       });
       return out + "</div>";
+    }
+
+    // What each offer contains, listed on its offer page. Services not in
+    // here just show their description.
+    var INCLUDES = {
+      noel: ["Coupe", "Barbe", "Soin du visage"],
+      traitement_complet: ["Coupe", "Barbe", "Shampooing", "Massage du visage", "Soin profond de la peau"]
+    };
+
+    function durationLabel(min) {
+      min = Number(min) || 30;
+      if (min < 60) return min + " min";
+      var h = Math.floor(min / 60), m = min % 60;
+      return h + " h" + (m ? " " + (m < 10 ? "0" : "") + m : "");
+    }
+
+    // Step 2: the offer the client tapped (or scanned), with the barber and
+    // time pickers directly underneath.
+    function renderOffer() {
+      var key = st.service;
+      var s = svc();
+      if (!s) { st.step = 1; return renderServices(); }
+      var img = s.image || IMAGES[key] || "/cuts/classique.jpg";
+      var save = s.planity ? Math.round((s.planity - s.price) * 100) / 100 : 0;
+      var items = INCLUDES[key] || [];
+
+      var out = '<button class="offer-change" data-action="back">← Voir toutes les offres</button>' +
+        '<div class="offer-detail' + (NOEL[key] ? " is-noel" : "") + (FEATURED[key] ? " is-premium" : "") + '">' +
+          '<div class="offer-media">' +
+            (NOEL[key] ? '<span class="opt-noel-badge">🎄 Offre Noël</span>' : "") +
+            (FEATURED[key] ? '<span class="opt-featured-badge">Premium</span>' : "") +
+            '<img class="offer-photo" src="' + esc(img) + '" alt="' + esc(s.label) + '">' +
+          "</div>" +
+          '<div class="offer-body">' +
+            '<div class="offer-kicker">Votre prestation</div>' +
+            '<h3 class="offer-name">' + esc(s.label) + "</h3>" +
+            '<div class="offer-price">' + money(s.price) +
+              (s.planity ? "<s>" + money(s.planity) + "</s>" : "") + "</div>" +
+            '<div class="offer-meta">Durée : ' + durationLabel(s.duration) + " · À régler sur place</div>" +
+            (s.desc ? '<p class="offer-desc">' + esc(s.desc) + "</p>" : "") +
+            (items.length
+              ? '<ul class="offer-includes">' + items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul>"
+              : "") +
+            (save > 0 ? '<span class="opt-save">Économisez ' + money(save) + " en réservant ici</span>" : "") +
+          "</div>" +
+        "</div>";
+
+      out += '<div class="step-title">Avec qui ?</div>' +
+        '<div class="step-hint">Choisissez votre barbier, ou laissez-nous vous placer au plus tôt.</div>' +
+        barberPicker();
+
+      out += '<div class="bk-when" id="bk-when">';
+      if (st.barber) {
+        out += '<div class="step-title">Quand ?</div><div class="step-hint">Sélectionnez un jour puis un créneau libre.</div>' +
+          slotPicker();
+      } else {
+        out += '<div class="booking-empty">Choisissez d\'abord votre barbier pour voir les créneaux.</div>';
+      }
+      return out + "</div>" + actions("Toutes les offres", null);
     }
 
     function barberPhoto(id) {
@@ -2166,28 +2345,26 @@
       return info && info.photo ? WORKER + info.photo : null;
     }
 
-    function renderBarbers() {
-      var out = '<div class="step-title">Avec quel barbier ?</div>' +
-        '<div class="step-hint">Choisissez votre barbier, ou laissez-nous vous placer au plus tôt.</div><div class="opt-grid">';
+    function barberPicker() {
+      var out = '<div class="opt-grid">';
       st.config.barbers.forEach(function (b) {
         var photo = barberPhoto(b);
-        out += '<button class="opt ' + (st.barber === b ? "selected" : "") + '" data-barber="' + esc(b) + '">' +
+        out += '<button class="opt opt-barber ' + (st.barber === b ? "selected" : "") + '" data-barber="' + esc(b) + '">' +
           (photo
             ? '<img class="barber-avatar barber-photo" src="' + esc(photo) + '" alt="' + esc(b) + '">'
             : '<span class="barber-avatar">' + esc(b.charAt(0)) + "</span>") +
           '<span class="opt-name">' + esc(b) + "</span>" +
           '<span class="opt-meta">Barbier professionnel</span></button>';
       });
-      out += '<button class="opt ' + (st.barber === "any" ? "selected" : "") + '" data-barber="any">' +
+      out += '<button class="opt opt-barber ' + (st.barber === "any" ? "selected" : "") + '" data-barber="any">' +
         '<span class="barber-avatar">?</span><span class="opt-name">Peu importe</span>' +
         '<span class="opt-meta">Le premier disponible</span></button>';
-      return out + "</div>" + actions("Retour", null);
+      return out + "</div>";
     }
 
-    function renderSlots() {
-      var out = '<div class="step-title">Quand ?</div><div class="step-hint">Sélectionnez un jour puis un créneau libre.</div>';
+    function slotPicker() {
       var start = todayISO();
-      out += '<div class="date-strip">';
+      var out = '<div class="date-strip">';
       for (var i = 0; i <= Math.min(st.config.maxDaysAhead, 27); i++) {
         var iso = addDays(start, i);
         var p = dateParts(iso);
@@ -2214,7 +2391,7 @@
           out += "</div>";
         }
       }
-      return out + actions("Retour", null);
+      return out;
     }
 
     function availableSlots() {
@@ -2296,8 +2473,7 @@
       else {
         html = stepper() + msg();
         if (st.step === 1) html += renderServices();
-        else if (st.step === 2) html += renderBarbers();
-        else if (st.step === 3) html += renderSlots();
+        else if (st.step === 2) html += renderOffer();
         else html += renderDetails();
       }
       card.innerHTML = html;
@@ -2369,7 +2545,7 @@
             // The slot was taken while they were typing — send them back to pick another.
             if (/réservé|disponible|passé/i.test(st.error)) {
               st.slot = null;
-              st.step = 3;
+              st.step = 2;
               if (st.date) return loadAvailability(st.date);
             }
             return render();
@@ -2411,24 +2587,32 @@
       if (!t) return;
 
       if (t.dataset.service) {
-        st.service = t.dataset.service; st.error = ""; st.step = 2; return render();
+        st.service = t.dataset.service; st.error = ""; st.step = 2;
+        render();
+        return scrollToEl(card);
       }
       if (t.dataset.barber) {
-        st.barber = t.dataset.barber; st.error = ""; st.step = 3; st.slot = null;
-        render();
-        if (st.date) loadAvailability(st.date);
-        return;
+        st.barber = t.dataset.barber; st.error = ""; st.slot = null;
+        if (!st.date) st.date = todayISO();
+        loadAvailability(st.date);
+        return scrollToEl(document.getElementById("bk-when"));
       }
       if (t.dataset.date) {
         st.date = t.dataset.date; st.slot = null; st.error = "";
         return loadAvailability(st.date);
       }
       if (t.dataset.slot) {
-        st.slot = Number(t.dataset.slot); st.error = ""; st.step = 4; return render();
+        st.slot = Number(t.dataset.slot); st.error = ""; st.step = 3;
+        render();
+        return scrollToEl(card);
       }
 
       var a = t.dataset.action;
-      if (a === "back") { st.error = ""; st.step = Math.max(1, st.step - 1); return render(); }
+      if (a === "back") {
+        st.error = ""; st.step = Math.max(1, st.step - 1);
+        render();
+        return scrollToEl(card);
+      }
       if (a === "submit") return submitBooking();
       if (a === "restart") {
         st = Object.assign(st, {
@@ -2524,8 +2708,16 @@
       render();
       renderGallery();
       renderProducts();
-      // Cancellation link from the confirmation email.
       var qs = new URLSearchParams(location.search);
+      // QR-code / shared link: ?offre=noel opens that offer's page directly.
+      var offre = (qs.get("offre") || "").toLowerCase();
+      if (offre && st.config.services[offre]) {
+        st.service = offre;
+        st.step = 2;
+        render();
+        scrollToEl(card);
+      }
+      // Cancellation link from the confirmation email.
       var id = qs.get("annuler");
       var tok = qs.get("token");
       if (id && tok) {
