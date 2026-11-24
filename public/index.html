@@ -1977,6 +1977,7 @@
       services: {
         noel: { label: "Offre NOËL", price: 21.99, planity: null, duration: 60, image: "/cuts/taper.jpg",
           desc: "Coupe + Barbe + Soin Visage — l'offre de fin d'année de Luxury Barber." },
+        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/cuts/classique.jpg" },
         traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg" }
       },
       slotMinutes: 30,
@@ -1988,9 +1989,10 @@
     // service row from the API doesn't carry its own `image`.
     var IMAGES = {
       noel: "/cuts/taper.jpg",
+      cheveux: "/cuts/classique.jpg",
       traitement_complet: "/tarifs/traitement.jpg",
     };
-    var ICONS = { noel: "ico-poteau", traitement_complet: "ico-poteau" };
+    var ICONS = { noel: "ico-poteau", cheveux: "ico-ciseaux", traitement_complet: "ico-poteau" };
     var DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
     var MONTHS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
 
@@ -2095,10 +2097,10 @@
       return rows + "</div>";
     }
 
-    // Fixed display order — the Noël promo is pinned first, the premium
-    // treatment is second. Any service the API returns that isn't in this
-    // list falls to the end in its natural order.
-    var SERVICE_ORDER = ["noel", "traitement_complet"];
+    // Fixed display order — the Noël promo is pinned first, then the
+    // everyday haircut, then the premium treatment. Any service the API
+    // returns that isn't in this list falls to the end in its natural order.
+    var SERVICE_ORDER = ["noel", "cheveux", "traitement_complet"];
     var FEATURED = { traitement_complet: true };
     var NOEL = { noel: true };
 
