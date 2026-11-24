@@ -196,7 +196,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 120px 5% 80px;
+      padding: 120px 5% 140px;
       position: relative;
       overflow: hidden;
     }
@@ -245,6 +245,19 @@
       pointer-events: none;
     }
 
+    /* The LB mark, large and centred above the badge. Vector, so it stays
+       sharp at any size. */
+    .hero-logo {
+      width: clamp(96px, 11vw, 140px);
+      height: auto;
+      aspect-ratio: 200 / 165;
+      display: block;
+      margin: 0 auto 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(201,162,39,0.45);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 10px 40px -8px rgba(201,162,39,0.45);
+    }
+
     .hero-content {
       position: relative;
       z-index: 2;
@@ -261,10 +274,59 @@
       text-shadow: 0 2px 20px rgba(0,0,0,0.6);
     }
 
+    /* Phones and tablets: the two photos split the screen, each fading
+       toward the middle, under a darker veil so the title stays on top. */
     @media (max-width: 900px) {
-      .hero-photo { display: none; }
-      .hero::after { background: none; }
+      .hero-photo { width: 50%; }
+      .hero-photo-left {
+        -webkit-mask-image: linear-gradient(to right, #000 60%, transparent 100%);
+        mask-image: linear-gradient(to right, #000 60%, transparent 100%);
+      }
+      .hero-photo-right {
+        -webkit-mask-image: linear-gradient(to left, #000 60%, transparent 100%);
+        mask-image: linear-gradient(to left, #000 60%, transparent 100%);
+      }
+      .hero::after {
+        background:
+          radial-gradient(ellipse 80% 45% at 50% 52%, rgba(11,11,11,0.78) 0%, rgba(11,11,11,0.35) 70%, rgba(11,11,11,0.25) 100%);
+      }
     }
+
+    /* Phones: the barber-tools table replaces the two photos as the hero
+       background, under a dark veil so the logo, title and buttons read. */
+    @media (max-width: 700px) {
+      .hero-photo { display: none; }
+      .hero::before {
+        background:
+          linear-gradient(180deg, rgba(11,11,11,0.55) 0%, rgba(11,11,11,0.45) 45%, rgba(11,11,11,0.8) 100%),
+          url("/hero/hero-phone.jpg") center / cover no-repeat;
+      }
+      .hero::after {
+        background: radial-gradient(ellipse 75% 40% at 50% 48%, rgba(11,11,11,0.65) 0%, transparent 80%);
+      }
+    }
+
+    /* Hero button straight to the Noël offer: same red card, green glow. */
+    .btn-noel {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%);
+      color: #86efac;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 15px 32px;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(134,239,172,0.6);
+      text-shadow: 0 0 10px rgba(34,197,94,0.75);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.45), 0 8px 30px -6px rgba(34,197,94,0.65);
+      animation: noel-pulse 2.4s ease-in-out infinite;
+      transition: transform 0.15s;
+    }
+    .btn-noel:hover { transform: translateY(-1px); }
+    @media (prefers-reduced-motion: reduce) { .btn-noel { animation: none; } }
 
     .hero-badge {
       position: relative;
@@ -1203,56 +1265,70 @@
       cursor: pointer;
     }
     .offer-change:hover { text-decoration: underline; }
+    /* Kept compact on purpose: after tapping an offer, the barber choice
+       ("Avec qui ?") should already be on screen without scrolling. */
     .offer-detail {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
       background: var(--dark-4);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 12px;
       overflow: hidden;
-      margin-bottom: 32px;
+      margin-bottom: 22px;
     }
-    .offer-media { position: relative; min-height: 280px; }
+    .offer-media { position: relative; min-height: 210px; }
     .offer-photo {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: 50% 35%;
       display: block;
     }
-    .offer-body { padding: 26px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .offer-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 7px; }
     .offer-kicker {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
     .offer-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-size: clamp(1.3rem, 2.6vw, 1.7rem);
       font-weight: 700;
       margin: 0;
       line-height: 1.15;
     }
+    .offer-pricerow { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
     .offer-price {
       font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
+      font-size: 1.55rem;
       font-weight: 700;
       color: var(--gold);
     }
     .offer-price s {
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: var(--text-muted);
       margin-left: 6px;
     }
-    .offer-meta { font-size: 0.85rem; color: var(--text-muted); }
-    .offer-desc { font-size: 0.95rem; line-height: 1.6; margin: 2px 0; }
-    .offer-includes { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 7px; }
-    .offer-includes li { display: flex; gap: 10px; font-size: 0.93rem; }
+    .offer-meta { font-size: 0.82rem; color: var(--text-muted); }
+    .offer-desc { font-size: 0.9rem; line-height: 1.5; margin: 0; }
+    .offer-includes { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .offer-includes li {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid rgba(212,175,55,0.4);
+      background: rgba(212,175,55,0.08);
+    }
     .offer-includes li::before { content: "✓"; color: var(--gold); font-weight: 700; }
     .offer-detail .opt-save { align-self: flex-start; }
 
@@ -1272,6 +1348,10 @@
       color: #86efac;
       text-shadow: 0 0 10px rgba(34,197,94,0.75), 0 0 24px rgba(34,197,94,0.35);
     }
+    .offer-detail.is-noel .offer-includes li {
+      border-color: rgba(134,239,172,0.55);
+      background: rgba(0,0,0,0.12);
+    }
     .offer-detail.is-premium {
       border-color: rgba(212,175,55,0.85);
       animation: premium-pulse 2.4s ease-in-out infinite;
@@ -1284,10 +1364,27 @@
 
     .bk-when { margin-top: 30px; scroll-margin-top: 100px; }
 
+    /* Barbers on the offer page: side by side, compact, so all of them
+       sit right under the offer even on a phone. */
+    .opt-grid-barbers { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 10px; }
+
     @media (max-width: 700px) {
       .offer-detail { grid-template-columns: 1fr; }
-      .offer-media { min-height: 0; aspect-ratio: 4/3; }
-      .offer-body { padding: 20px; }
+      .offer-media { min-height: 0; aspect-ratio: 16/7; }
+      .offer-body { padding: 14px 16px 16px; gap: 6px; }
+      .offer-kicker { display: none; }
+      .offer-desc { font-size: 0.86rem; }
+      .opt-grid-barbers .opt-barber { padding: 10px 8px; align-items: center; text-align: center; gap: 2px; }
+      .opt-grid-barbers .barber-avatar { width: 36px; height: 36px; margin-bottom: 4px; }
+      .opt-grid-barbers .opt-name { font-size: 0.92rem; }
+      .opt-grid-barbers .opt-meta { display: none; }
+    }
+    /* Short phone screens (iPhone SE and similar): slimmer photo strip. */
+    @media (max-width: 700px) and (max-height: 720px) {
+      .offer-media { aspect-ratio: 16/5; }
+      .offer-desc { font-size: 0.82rem; line-height: 1.4; }
+      .offer-name { font-size: 1.2rem; }
+      .offer-price { font-size: 1.35rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       .offer-detail.is-noel, .offer-detail.is-premium { animation: none; }
@@ -1394,6 +1491,7 @@
       display: block;
     }
     .opt-photo[src="/cuts/barbe.jpg"] { object-position: 50% 22%; }
+    .opt-photo[src="/tarifs/noel.jpg"] { object-position: 50% 15%; }
 
     .opt-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
 
@@ -1766,13 +1864,13 @@
     <img class="hero-photo hero-photo-left" src="/hero/hero-left.jpg" alt="Coupe homme à Luxury Barber" loading="eager">
     <img class="hero-photo hero-photo-right" src="/hero/hero-right.jpg" alt="Soin visage à Luxury Barber" loading="eager">
     <div class="hero-content">
+      <svg class="hero-logo" viewBox="0 0 200 165" role="img" aria-label="Luxury Barber"><use href="#logo-lb-compact"/></svg>
       <div class="hero-badge">Barbier à Amiens</div>
       <h1>Luxury<br><span>Barber</span></h1>
       <p class="hero-sub">Expertise. Précision. Style.</p>
       <div class="hero-actions">
-        <a href="#reserver" class="btn-primary">
-          📅 Prendre rendez-vous
-        </a>
+        <a href="/?offre=noel" class="btn-noel" data-book-service="noel">🎄 Offre Noël</a>
+        <a href="#reserver" class="btn-primary">Prendre rendez-vous</a>
         <a href="#reserver" class="btn-outline">Voir les tarifs</a>
       </div>
     </div>
@@ -2109,7 +2207,7 @@
       services: {
         noel: { label: "Offre NOËL", price: 21.99, planity: null, duration: 60, image: "/tarifs/noel.jpg",
           desc: "Coupe + Barbe + Soin Visage — l'offre de fin d'année de Luxury Barber." },
-        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/cuts/classique.jpg" },
+        cheveux: { label: "Cheveux", price: 18.0, planity: 20.0, duration: 30, image: "/tarifs/cheveux.jpg" },
         traitement_complet: { label: "Le traitement complet !", price: 32.99, planity: null, duration: 60, image: "/tarifs/traitement.jpg",
           desc: "Coupe, barbe, shampooing, massage du visage et soin profond de la peau — pour les grandes occasions ou simplement pour prendre soin de vous. Vous repartirez plus beau, plus détendu et plus confiant." }
       },
@@ -2122,7 +2220,7 @@
     // service row from the API doesn't carry its own `image`.
     var IMAGES = {
       noel: "/tarifs/noel.jpg",
-      cheveux: "/cuts/classique.jpg",
+      cheveux: "/tarifs/cheveux.jpg",
       traitement_complet: "/tarifs/traitement.jpg",
     };
     var ICONS = { noel: "ico-poteau", cheveux: "ico-ciseaux", traitement_complet: "ico-poteau" };
@@ -2195,6 +2293,12 @@
       if (!el) return;
       var y = el.getBoundingClientRect().top + window.pageYOffset - 90;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }
+
+    // Offer page: start at the "Voir toutes les offres" link so the offer
+    // and the barber choice fit on screen; the step tracker sits just above.
+    function scrollToOffer() {
+      scrollToEl(card.querySelector(".offer-change") || card);
     }
 
     // ── Rendering ────────────────────────────────────────────────────────
@@ -2315,9 +2419,11 @@
           '<div class="offer-body">' +
             '<div class="offer-kicker">Votre prestation</div>' +
             '<h3 class="offer-name">' + esc(s.label) + "</h3>" +
-            '<div class="offer-price">' + money(s.price) +
-              (s.planity ? "<s>" + money(s.planity) + "</s>" : "") + "</div>" +
-            '<div class="offer-meta">Durée : ' + durationLabel(s.duration) + " · À régler sur place</div>" +
+            '<div class="offer-pricerow">' +
+              '<span class="offer-price">' + money(s.price) +
+                (s.planity ? "<s>" + money(s.planity) + "</s>" : "") + "</span>" +
+              '<span class="offer-meta">' + durationLabel(s.duration) + " · à régler sur place</span>" +
+            "</div>" +
             (s.desc ? '<p class="offer-desc">' + esc(s.desc) + "</p>" : "") +
             (items.length
               ? '<ul class="offer-includes">' + items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul>"
@@ -2346,7 +2452,7 @@
     }
 
     function barberPicker() {
-      var out = '<div class="opt-grid">';
+      var out = '<div class="opt-grid opt-grid-barbers">';
       st.config.barbers.forEach(function (b) {
         var photo = barberPhoto(b);
         out += '<button class="opt opt-barber ' + (st.barber === b ? "selected" : "") + '" data-barber="' + esc(b) + '">' +
@@ -2590,7 +2696,7 @@
         st.service = t.dataset.service; st.error = ""; st.step = 2;
         setOfferUrl(st.service, true);
         render();
-        return scrollToEl(card);
+        return scrollToOffer();
       }
       if (t.dataset.barber) {
         st.barber = t.dataset.barber; st.error = ""; st.slot = null;
@@ -2695,14 +2801,18 @@
       });
     }
 
-    // Deep link from the price cards: pick that service and jump to step 2.
+    // Buttons that open an offer in place (e.g. the hero's "Offre Noël"):
+    // no page reload, address bar set to …/?offre=<id>.
     document.querySelectorAll("[data-book-service]").forEach(function (el) {
-      el.addEventListener("click", function () {
+      el.addEventListener("click", function (e) {
+        if (!st.config.services[el.dataset.bookService]) return;
+        e.preventDefault();
         st.service = el.dataset.bookService;
         st.step = 2;
         st.error = "";
         setOfferUrl(st.service, true);
         render();
+        scrollToOffer();
       });
     });
 
@@ -2731,7 +2841,7 @@
       }
       st.error = "";
       render();
-      scrollToEl(card);
+      if (st.step === 2) scrollToOffer(); else scrollToEl(card);
     });
 
     // ── Boot ─────────────────────────────────────────────────────────────
@@ -2748,7 +2858,7 @@
         st.step = 2;
         setOfferUrl(offre, false);
         render();
-        scrollToEl(card);
+        scrollToOffer();
       }
       // Cancellation link from the confirmation email.
       var id = qs.get("annuler");
