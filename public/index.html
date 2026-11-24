@@ -2829,6 +2829,26 @@
       } catch (e) {}
     }
 
+    // The logo and every "Tarifs" / "Réserver" / "Prendre rendez-vous" /
+    // "Voir les tarifs" link bring the booking box back to the offer list
+    // (and clear ?offre= from the address). The anchor's own scroll still
+    // happens: to the top for the logo, to the booking section otherwise.
+    // A confirmed or cancelled booking screen is left as it is.
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest('a.nav-logo, a[href="#reserver"]');
+      if (!a || a.hasAttribute("data-book-service")) return;
+      if (st.result || st.cancelled || st.step === 1) return;
+      // Scroll here instead of following the "#"/"#reserver" link, so the
+      // back button needs a single press to return to the offer.
+      e.preventDefault();
+      st.step = 1;
+      st.error = "";
+      setOfferUrl(null, true);
+      render();
+      if (a.classList.contains("nav-logo")) window.scrollTo({ top: 0, behavior: "smooth" });
+      else scrollToEl(document.getElementById("reserver"));
+    });
+
     // Phone/browser back and forward buttons move between the offer list
     // and an offer page.
     window.addEventListener("popstate", function () {
